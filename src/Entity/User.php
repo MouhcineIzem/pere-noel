@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,6 +55,16 @@ class User implements UserInterface
      * @ORM\Column(type="date")
      */
     private $dateDeNaissance;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="user")
+     */
+    private $cadeaux;
+
+    public function __construct()
+    {
+        $this->cadeaux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class User implements UserInterface
     public function setDateDeNaissance(\DateTimeInterface $dateDeNaissance): self
     {
         $this->dateDeNaissance = $dateDeNaissance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cadeau[]
+     */
+    public function getCadeaux(): Collection
+    {
+        return $this->cadeaux;
+    }
+
+    public function addCadeaux(Cadeau $cadeaux): self
+    {
+        if (!$this->cadeaux->contains($cadeaux)) {
+            $this->cadeaux[] = $cadeaux;
+            $cadeaux->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCadeaux(Cadeau $cadeaux): self
+    {
+        if ($this->cadeaux->removeElement($cadeaux)) {
+            // set the owning side to null (unless already changed)
+            if ($cadeaux->getUser() === $this) {
+                $cadeaux->setUser(null);
+            }
+        }
 
         return $this;
     }

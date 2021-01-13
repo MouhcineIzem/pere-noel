@@ -3,37 +3,25 @@
 {% block title %}Cadeau index{% endblock %}
 
 {% block body %}
-    <h1>Cadeau index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Designation</th>
-                <th>Age</th>
-                <th>Prix</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1 class="text-center p-2">Cadeau index</h1>
+    <div class="row">
         {% for cadeau in cadeaus %}
-            <tr>
-                <td>{{ cadeau.id }}</td>
-                <td>{{ cadeau.designation }}</td>
-                <td>{{ cadeau.age }}</td>
-                <td>{{ cadeau.prix }}</td>
-                <td>
-                    <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}">show</a>
-                    <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class=" col-md-3 mx-2 my-2">
+                <div class="decoration__data">
+                    <img src="{{ asset("assets/img/decoration1.png") }}" alt="" class="decoration__img">
+                    <h3 class="decoration__title">{{ cadeau.designation }}</h3>
+                    <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">Go Details</a>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <h5 class="text-center bg-warning">
+                no records found
+            </h5>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
+
 
     <a href="{{ path('cadeau_new') }}">Create new</a>
+
+
 {% endblock %}
