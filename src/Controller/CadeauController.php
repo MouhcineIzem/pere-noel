@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Classe\Search;
 use App\Entity\Cadeau;
 use App\Form\CadeauType;
+use App\Form\SearchType;
 use App\Repository\CadeauRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +20,21 @@ class CadeauController extends AbstractController
     /**
      * @Route("/", name="cadeau_index", methods={"GET"})
      */
-    public function index(CadeauRepository $cadeauRepository): Response
+    public function index(CadeauRepository $cadeauRepository, Request $request): Response
     {
+        $cadeaux = $cadeauRepository->findAll();
+        $search = new Search();
+        $form = $this->createForm(SearchType::class, $search);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $cadeaux = $cadeauRepository->findWithSearch($search);
+            //dd($cadeau);
+        }
+
         return $this->render('cadeau/index.html.twig', [
-            'cadeaus' => $cadeauRepository->findAll(),
+            'cadeaus' => $cadeaux,
+            'form' => $form->createView()
         ]);
     }
 

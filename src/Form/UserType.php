@@ -45,12 +45,6 @@ class UserType extends AbstractType
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
             ])
-            ->add('submit',SubmitType::class, [
-                'label' => "S'inscrire",
-                'attr' => [
-                    'class' => "btn btn-info btn-block"
-                ]
-            ])
         ;
     }
 

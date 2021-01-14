@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Cadeau;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +18,31 @@ class CadeauRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Cadeau::class);
+    }
+
+    /**
+     * @param Search $search
+     */
+    public function findWithSearch(Search $search)
+    {
+        $query = $this
+                    ->createQueryBuilder('c')
+                    ->select('ca', 'c')
+                    ->join('c.categorie', 'ca');
+
+        if (!empty($search->categories)) {
+            $query = $query
+                        ->andWhere('ca.id IN (:categories)')
+                        ->setParameter('categories', $search->categories);
+        }
+
+        if (!empty($search->string)) {
+            $query = $query
+                ->andWhere('c.designation LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

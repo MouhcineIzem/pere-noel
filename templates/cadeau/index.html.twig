@@ -3,23 +3,30 @@
 {% block title %}Cadeau index{% endblock %}
 
 {% block body %}
-    <h1 class="text-center p-2">Cadeau index</h1>
     <div class="row">
-        {% for cadeau in cadeaus %}
-            <div class=" col-md-3 mx-2 my-2">
-                <div class="decoration__data">
-                    <img src="{{ asset("assets/img/decoration1.png") }}" alt="" class="decoration__img">
-                    <h3 class="decoration__title">{{ cadeau.designation }}</h3>
-                    <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">Go Details</a>
-                </div>
+        <div class="col-md-2">
+            <h1>Filtrer</h1>
+            {{ form(form) }}
+        </div>
+        <div class="col-md-10 ">
+            <h1 class="text-center p-2">Cadeau index</h1>
+            <div class="row">
+                {% for cadeau in cadeaus %}
+                    <div class=" col-md-3 mx-2 my-2">
+                        <div class="decoration__data">
+                            <img src="{{ asset("assets/img/decoration1.png") }}" alt="" class="decoration__img">
+                            <h3 class="decoration__title">{{ cadeau.designation }}</h3>
+                            <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">Go Details</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <h5 class="text-center bg-warning">
+                        no records found
+                    </h5>
+                {% endfor %}
             </div>
-        {% else %}
-            <h5 class="text-center bg-warning">
-                no records found
-            </h5>
-        {% endfor %}
+        </div>
     </div>
-
 
     <a href="{{ path('cadeau_new') }}" class="btn btn-info mx-3 my-3">Create new</a>
 

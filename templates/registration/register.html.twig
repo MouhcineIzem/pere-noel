@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegisterController!{% endblock %}
+{% block title %}S'inscrire{% endblock %}
 
 {% block body %}
     <style>
@@ -29,6 +29,12 @@
     <div class="example-wrapper">
         {{ form_start(registrationForm) }}
         {{ form_row(registrationForm) }}
+        <button type="submit" class="btn btn-info btn-block">
+                {% if app.user and  app.request.pathInfo == "/update/"~app.user.id %}
+                    Modifier
+                {% endif %}
+            S'inscrire
+        </button>
         {{ form_end(registrationForm) }}
     </div>
 
