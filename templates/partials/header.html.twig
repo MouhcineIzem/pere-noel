@@ -24,7 +24,7 @@
 			{% if app.user %}
 				<div class="card_user">
 					<img src="https://picsum.photos/200" alt="">
-					<h6>{{ app.user.firstName }}</h6>
+					<h6><a href="{{ path('update', {"id": app.user.id}) }}">{{ app.user.firstName }}</a></h6>
 				</div>
 			{% endif %}
              <img src="{{asset('assets/images/santa-claus.svg')}}"  />

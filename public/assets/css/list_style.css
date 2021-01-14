@@ -13,8 +13,9 @@
     height: 50px;
     border-radius: 50%;
 }
-.card_user h6 {
+.card_user h6 a {
     font-weight: 300;
     text-align: center;
     color: whitesmoke;
+    text-decoration: none;
 }
