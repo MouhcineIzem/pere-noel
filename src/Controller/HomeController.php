@@ -25,6 +25,14 @@ class HomeController extends AbstractController
         return $this->render('home/list.html.twig');
     }
 
+    /**
+     * @Route("/list_cadeaux", name="app_list_cadeaux")
+     */
+    public function listerLesCadeaux() {
+
+        return $this->render('home/liste_cadeaux.html.twig');
+    }
+
 
 
 

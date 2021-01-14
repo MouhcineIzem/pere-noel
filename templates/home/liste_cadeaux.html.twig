@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Liste des cadeaux' %}
+
+{% block stylesheets %} {% endblock %}
+
+{% block body %}
+    <h3 class="container">Nombre de jouets : {{ app.user.listCadeaux.count }}</h3>
+    {%  for cadeau in app.user.listCadeaux   %}
+        <div class="container">
+            <h4>{{ cadeau.designation }}</h4>
+        </div>
+    {% endfor %}
+
+{% endblock %}

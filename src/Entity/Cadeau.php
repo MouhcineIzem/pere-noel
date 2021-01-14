@@ -42,9 +42,10 @@ class Cadeau
     private $categorie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="cadeaux")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="list_cadeaux")
      */
     private $user;
+
 
     public function getId(): ?int
     {
@@ -110,4 +111,5 @@ class Cadeau
 
         return $this;
     }
+    
 }

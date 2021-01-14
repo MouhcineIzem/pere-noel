@@ -16,6 +16,9 @@
             padding: 2px 6px;
         }
     </style>
+    {% if app.user %}
+        <a href="{{ path('app_list_cadeaux') }}">List des mes cadeaux</a>
+    {% endif %}
 
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>

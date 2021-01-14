@@ -61,12 +61,14 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="user")
      */
-    private $cadeaux;
+    private $list_cadeaux;
 
     public function __construct()
     {
-        $this->cadeaux = new ArrayCollection();
+        $this->list_cadeaux = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -192,30 +194,36 @@ class User implements UserInterface
     /**
      * @return Collection|Cadeau[]
      */
-    public function getCadeaux(): Collection
+    public function getListCadeaux(): Collection
     {
-        return $this->cadeaux;
+        return $this->list_cadeaux;
     }
 
-    public function addCadeaux(Cadeau $cadeaux): self
+    public function addListCadeaux(Cadeau $listCadeaux): self
     {
-        if (!$this->cadeaux->contains($cadeaux)) {
-            $this->cadeaux[] = $cadeaux;
-            $cadeaux->setUser($this);
+        if (!$this->list_cadeaux->contains($listCadeaux)) {
+            $this->list_cadeaux[] = $listCadeaux;
+            $listCadeaux->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCadeaux(Cadeau $cadeaux): self
+    public function removeListCadeaux(Cadeau $listCadeaux): self
     {
-        if ($this->cadeaux->removeElement($cadeaux)) {
+        if ($this->list_cadeaux->removeElement($listCadeaux)) {
             // set the owning side to null (unless already changed)
-            if ($cadeaux->getUser() === $this) {
-                $cadeaux->setUser(null);
+            if ($listCadeaux->getUser() === $this) {
+                $listCadeaux->setUser(null);
             }
         }
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return "lolo";
+    }
+
 }

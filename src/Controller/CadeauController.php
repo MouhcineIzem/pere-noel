@@ -49,6 +49,7 @@ class CadeauController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $cadeau->setUser($this->getUser());
             $entityManager->persist($cadeau);
             $entityManager->flush();
 
