@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -40,7 +41,9 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('dateDeNaissance',DateType::class, [
-                'label' => 'date de naissance'
+                'widget' => 'single_text',
+                // this is actually the default format for single_text
+                'format' => 'yyyy-MM-dd',
             ])
             ->add('submit',SubmitType::class, [
                 'label' => "S'inscrire",

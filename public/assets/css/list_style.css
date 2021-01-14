@@ -2,3 +2,19 @@
     display: flex;
     justify-content: space-between;
 }
+
+.card_user {
+    display: flex;
+    align-items: center;
+}
+
+.card_user img {
+    margin-right: 5px;
+    height: 50px;
+    border-radius: 50%;
+}
+.card_user h6 {
+    font-weight: 300;
+    text-align: center;
+    color: whitesmoke;
+}
