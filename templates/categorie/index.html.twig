@@ -3,33 +3,22 @@
 {% block title %}Categorie index{% endblock %}
 
 {% block body %}
-    <h1>Categorie index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1 class="text-center p-5">Les categories</h1>
+            <div class="row my-2" >
         {% for categorie in categories %}
-            <tr>
-                <td>{{ categorie.id }}</td>
-                <td>{{ categorie.name }}</td>
-                <td>
-                    <a href="{{ path('categorie_show', {'id': categorie.id}) }}">show</a>
-                    <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('categorie_new') }}">Create new</a>
+                    <div class="accessory__content  col-md-3 mx-3">
+                        <img src="{{ asset("assets/img/accessory1.png") }}" alt="" class="accessory__img">
+                        <h3 class="text-center">{{ categorie.name }}</h3>
+                    </div>
+
+        {% else %}
+            <div>
+                <h6 colspan="3">no records found</h6>
+            </div>
+        {% endfor %}
+            </div>
+
+
+   <a href="{{ path('categorie_new') }}" class="btn btn-info mx-3 my-3">Create new</a>
 {% endblock %}

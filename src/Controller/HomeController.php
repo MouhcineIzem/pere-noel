@@ -18,18 +18,14 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/home", name="app_home")
+     * @Route("/list", name="app_list")
      */
-    public function home(): Response
+    public function lister(): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('home/list.html.twig');
     }
 
-    /**
-     * @Route("/logoutA", name="app_log_out")
-     */
-    public function logoutApp(): Response
-    {
-        return new Response('<h1 class="text-success">Log out Success</h1>');
-    }
+
+
+
 }

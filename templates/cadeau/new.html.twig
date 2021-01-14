@@ -3,9 +3,10 @@
 {% block title %}New Cadeau{% endblock %}
 
 {% block body %}
+
     <h1>Create new Cadeau</h1>
 
     {{ include('cadeau/_form.html.twig') }}
 
-    <a href="{{ path('cadeau_index') }}">back to list</a>
+    <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
 {% endblock %}
