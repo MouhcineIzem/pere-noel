@@ -223,7 +223,13 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return "lolo";
+        return $this->getFirstName(). " ".$this->getLastName();
+    }
+
+    public function age()
+    {
+        $now = new \DateTime();
+       return  $now->diff($this->getDateDeNaissance());
     }
 
 }

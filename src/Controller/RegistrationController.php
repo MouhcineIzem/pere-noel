@@ -75,4 +75,18 @@ class RegistrationController extends AbstractController
             "registrationForm" => $form->createView()
         ]);
     }
+
+    /**
+     *@Route("/profile/{id}", name="profile")
+     */
+    public function profile($id, UserRepository $repository)
+    {
+        $user = $repository->findOneById($id);
+        $age = $user->age()->y ;
+
+        
+        return $this->render('registration/profile.html.twig', [
+            'age' =>   $age
+        ]);
+    }
 }

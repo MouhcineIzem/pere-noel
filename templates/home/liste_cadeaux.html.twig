@@ -5,11 +5,51 @@
 {% block stylesheets %} {% endblock %}
 
 {% block body %}
-    <h3 class="container">Nombre de jouets : {{ app.user.listCadeaux.count }}</h3>
-    {%  for cadeau in app.user.listCadeaux   %}
-        <div class="container">
-            <h4>{{ cadeau.designation }}</h4>
+    <h3 class="container text-center p-4">Nombre de Cadeaux : {{ app.user.listCadeaux.count }}</h3>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+
+                        <thead>
+                        <th>Image</th>
+                        <th>Designation</th>
+                        <th>Age</th>
+                        <th>prix</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        </thead>
+                        <tbody>
+                        {%  for cadeau in app.user.listCadeaux   %}
+                        <tr>
+                            <td>
+                                <img src=" {% if cadeau.image %}
+                                        {{ asset("uploads/cadeaux/"~cadeau.image) }}
+                                    {% else %}
+                                        {{ asset('assets/img/decoration1.png') }}
+                                    {% endif %}"
+                                     alt=""
+                                     class="rounded-circle" width="30">
+                            </td>
+                            <td>{{ cadeau.designation }}</td>
+                            <td>{{ pluriels(cadeau.age, 'an') }}</td>
+                            <td>{{ cadeau.prix }} €</td>
+                            <td><p><button class="btn btn-primary btn-xs" ><i class="fas fa-edit"></i></button></p></td>
+                            <td><p><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></p></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
-    {% endfor %}
+    </div>
+
 
 {% endblock %}

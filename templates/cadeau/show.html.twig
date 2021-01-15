@@ -40,5 +40,8 @@
 
     <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>
 
+    <a href="{{ path('panier')}}"
+       class="btn btn-success text-right mx-5">Ajouter au Panier</a>
+
     {{ include('cadeau/_delete_form.html.twig') }}
 {% endblock %}
