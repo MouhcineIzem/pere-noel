@@ -8,6 +8,7 @@ use App\Form\CadeauType;
 use App\Form\SearchType;
 use App\Repository\CadeauRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,6 +49,26 @@ class CadeauController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            //dd($image);
+
+            if ($image) {
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
+
+                try {
+                    $image->move(
+                      $this->getParameter('images_cadeaux'),
+                        $newFilename
+                    );
+                } catch (FileException $exception) {
+                    // handle an Exception
+                }
+
+                $cadeau->setImage($newFilename);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $cadeau->setUser($this->getUser());
             $entityManager->persist($cadeau);

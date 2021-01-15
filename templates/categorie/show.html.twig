@@ -4,29 +4,39 @@
 
 {% block body %}
     <h2 class="container text-center p-3">Categorie des : {{ categorie.name~"s" }}</h2>
-    <div class="row">
-        {% set total = null %}
-        {% for cadeau in categorie.cadeaus %}
-            <div class=" col-md-3 mx-2 my-2">
-                <div class="decoration__data">
-                    <img src="{{ asset("assets/img/decoration1.png") }}" alt="" class="decoration__img">
-                    <h3 class="decoration__title">{{ cadeau.designation }}</h3>
-                    <p><span><strong>{{ cadeau.prix }}</strong> €</span></p>
-                    <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">details ...</a>
+    {% if categorie.cadeaus | length > 0 %}
+        <div class="row">
+            {% set total = null %}
+            {% for cadeau in categorie.cadeaus %}
+                <div class=" col-md-3 mx-2 my-2">
+                    <div class="decoration__data">
+                        <img src="{% if cadeau.image %}
+                                                {{ asset("uploads/cadeaux/"~cadeau.image) }}
+                                           {% else %}
+                                                {{ asset("assets/img/decoration1.png") }}
+                                           {% endif %}" alt="" class="decoration__img">
+                        <h3 class="decoration__title">{{ cadeau.designation }}</h3>
+                        <p><span><strong>{{ cadeau.prix }}</strong> €</span></p>
+                        <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">details ...</a>
+                    </div>
                 </div>
-            </div>
-            {%  set total = cadeau.prix + total  %}
-        {% endfor %}
-    </div>
+                {%  set total = cadeau.prix + total  %}
+            {% endfor %}
+        </div>
 
     <div class="container text-right p-2 border-info">
-        <h4 class="text-info">
+        <h6 class="text-info">
             Le total des prix des cadeaux de {{categorie.name }}  est de : {{ total }} €
-        </h4>
-        <h4 class="text-success">
+        </h6>
+        <h6 class="text-success">
             La moyenne des prix des cadeaux de {{categorie.name }} est de  : {{ total / (categorie.cadeaus | length) }} €
-        </h4>
+        </h6>
     </div>
+    {% else %}
+        <div>
+            <h1>Pas De cadeaux dans cette categories pour l'instant </h1>
+        </div>
+    {% endif %}
 
     <a href="{{ path('categorie_index') }}" class="btn btn-info mx-3 my-2">back to list</a>
 

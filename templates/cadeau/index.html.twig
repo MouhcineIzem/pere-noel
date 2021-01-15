@@ -7,6 +7,7 @@
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
             {{ form(form) }}
+            <h4><a href="{{ path('categorie_index') }}" class="text-success text-decoration-none">Lite des categories</a></h4>
         </div>
         <div class="col-md-10 ">
             <h2 class="text-center p-2">Liste des cadeaux</h2>
@@ -14,7 +15,12 @@
                 {% for cadeau in cadeaus %}
                     <div class=" col-md-3 mx-2 my-2">
                         <div class="decoration__data">
-                            <img src="{{ asset("assets/img/decoration1.png") }}" alt="" class="decoration__img">
+                            <img src=" {% if cadeau.image %}
+                                            {{ asset("uploads/cadeaux/"~cadeau.image) }}
+                                       {% else %}
+                                            {{ asset("assets/img/decoration1.png") }}
+                                       {% endif %}
+                            " alt="" class="decoration__img">
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">Go Details</a>
                         </div>

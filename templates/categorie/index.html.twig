@@ -8,7 +8,12 @@
         {% for categorie in categories %}
 
                     <div class="accessory__content  col-md-3 mx-3 mb-4">
-                        <img src="{{ asset("assets/img/accessory1.png") }}" alt="" class="accessory__img">
+                        <img src=" {% if categorie.image %}
+                                        {{ asset("uploads/categories/"~categorie.image) }}
+                                    {% else %}
+                                        {{ asset("assets/img/accessory1.png") }}
+                                    {% endif %}"
+                             alt="" class="accessory__img">
                         <h3 class="text-center">
                             <a href="{{ path('categorie_show', {'id' : categorie.id}) }}" class="text-dark text-decoration-none">
                                 {{ categorie.name }}
