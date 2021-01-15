@@ -7,10 +7,12 @@
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
             {{ form(form) }}
-            <h4><a href="{{ path('categorie_index') }}" class="text-success text-decoration-none">Lite des categories</a></h4>
+            <h6><a href="{{ path('categorie_index') }}" class="text-dark text-decoration-none ml-2">
+                    <i class="fas fa-list"></i> categories</a>
+            </h6>
         </div>
         <div class="col-md-10 ">
-            <h2 class="text-center p-2">Liste des cadeaux</h2>
+            <h4 class="text-center p-2">Liste des cadeaux</h4>
             <div class="row">
                 {% for cadeau in cadeaus %}
                     <div class=" col-md-3 mx-2 my-2">
@@ -22,12 +24,15 @@
                                        {% endif %}
                             " alt="" class="decoration__img">
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
-                            <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">Go Details</a>
+                            <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2">Details</a>
+                            {% if app.user %}
+                            <a href="{{ path('panier') }}" class=" button button-link text-success">Ajouter</a>
+                            {% endif %}
                         </div>
                     </div>
                 {% else %}
                     <h5 class="text-center bg-warning">
-                        no records found
+                        Pas de cadeaux encore créer
                     </h5>
                 {% endfor %}
             </div>

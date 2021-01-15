@@ -19,3 +19,9 @@
     color: whitesmoke;
     text-decoration: none;
 }
+
+.img_panier {
+    height: 80px;
+    border-radius: 50%;
+    border: dimgray;
+}
