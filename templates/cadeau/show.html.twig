@@ -3,7 +3,7 @@
 {% block title %}Cadeau{% endblock %}
 
 {% block body %}
-    <h1>Cadeau</h1>
+    <h1 class="container text-center p-2">{{ cadeau.designation }}</h1>
 
     <table class="table">
         <tbody>
@@ -16,19 +16,29 @@
                 <td>{{ cadeau.designation }}</td>
             </tr>
             <tr>
+                <th>Categorie</th>
+                <td>{{ cadeau.categorie.name }}</td>
+            </tr>
+            <tr>
                 <th>Age</th>
-                <td>{{ cadeau.age }}</td>
+                <td>{{ pluriels(cadeau.age, 'an') }}</td>
             </tr>
             <tr>
                 <th>Prix</th>
-                <td>{{ cadeau.prix }}</td>
+                <td>{{ cadeau.prix | number_format(2,',','.')}} €</td>
             </tr>
+            {% if cadeau.user %}
+            <tr>
+                <th>Créer par l'utilisateur : </th>
+                <td>{{ cadeau.user.firstName }}</td>
+            </tr>
+            {% endif %}
         </tbody>
     </table>
 
-    <a href="{{ path('cadeau_index') }}">back to list</a>
+    <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
 
-    <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}">edit</a>
+    <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>
 
     {{ include('cadeau/_delete_form.html.twig') }}
 {% endblock %}

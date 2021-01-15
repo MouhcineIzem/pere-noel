@@ -5,11 +5,11 @@
 {% block body %}
     <div class="row">
         <div class="col-md-2">
-            <h1>Filtrer</h1>
+            <h2 class="my-2">Filtrer</h2>
             {{ form(form) }}
         </div>
         <div class="col-md-10 ">
-            <h1 class="text-center p-2">Cadeau index</h1>
+            <h2 class="text-center p-2">Liste des cadeaux</h2>
             <div class="row">
                 {% for cadeau in cadeaus %}
                     <div class=" col-md-3 mx-2 my-2">
