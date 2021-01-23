@@ -21,10 +21,11 @@
                         <th>Designation</th>
                         <th>Age</th>
                         <th>prix</th>
-                        <th>Edit</th>
+                        <th>show</th>
                         <th>Delete</th>
                         </thead>
                         <tbody>
+                        {% set total =  null %}
                         {%  for cadeau in app.user.listCadeaux   %}
                         <tr>
                             <td>
@@ -39,14 +40,23 @@
                             <td>{{ cadeau.designation }}</td>
                             <td>{{ pluriels(cadeau.age, 'an') }}</td>
                             <td>{{ cadeau.prix }} €</td>
-                            <td><p><button class="btn btn-primary btn-xs" ><i class="fas fa-edit"></i></button></p></td>
-                            <td><p><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></p></td>
+                            <td><p><a href="{{ path('cadeau_show', {'id': cadeau.id}) }}"><button class="btn btn-primary btn-xs" ><i class="fas fa-edit"></i></button></a></p></td>
+                            <td><p><a href=""><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></p></td>
                         </tr>
+                            {% set total = total + cadeau.prix %}
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 border-top border-bottom my-2">
+                {% set avr = total / (app.user.listCadeaux.count) %}
+                <h5>Total des prix : <strong class="text-info">{{ total | number_format(2,',','.') }} €</strong></h5>
+                <h5>Moyenne des prix : <strong class="text-info">{{ avr | number_format(2,',','.') }} €</strong></h5>
             </div>
         </div>
     </div>

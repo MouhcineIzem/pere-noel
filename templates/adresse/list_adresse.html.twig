@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adresse index{% endblock %}
+
+{% block body %}
+    <h1 class=" container text-center p-4">Mes Adresses</h1>
+    <div class="row">
+        <div class="text-center col-md-6 my-3 mx-3">
+            <a href="" class="btn btn-success btn-sm">Filtrer</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Rue</th>
+            <th>Numero</th>
+            <th>CodePostal</th>
+            <th>Ville</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for adress in users.adresses %}
+            <tr>
+                <td>{{ adresse.id }}</td>
+                <td>{{ adresse.rue }}</td>
+                <td>{{ adresse.numero }}</td>
+                <td>{{ adresse.codePostal }}</td>
+                <td>{{ adresse.ville }}</td>
+                <td>
+                    <a href="">show</a>
+                    <a href="">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+{% endblock %}

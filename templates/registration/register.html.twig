@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}S'inscrire{% endblock %}
+{% block title %}
+    {% if app.user %}Modifier
+    {% else %}
+    S'inscrire
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <style>
@@ -24,6 +29,7 @@
         <div class="my-2 profile">
             <a href="{{ path('app_list_cadeaux') }}" class="mx-3">List des mes cadeaux</a>
             <a href="{{ path('profile', {'id': app.user.id}) }}" class="mx-3">Mon - Profil</a>
+            <a href="{{ path('adresse_new') }}">Ajouter une adresse</a>
         </div>
     {% endif %}
 

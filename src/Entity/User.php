@@ -63,6 +63,16 @@ class User implements UserInterface
      */
     private $list_cadeaux;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profilPicture;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="users")
+     */
+    private $adresses;
+
     public function __construct()
     {
         $this->list_cadeaux = new ArrayCollection();
@@ -230,6 +240,30 @@ class User implements UserInterface
     {
         $now = new \DateTime();
        return  $now->diff($this->getDateDeNaissance());
+    }
+
+    public function getProfilPicture(): ?string
+    {
+        return $this->profilPicture;
+    }
+
+    public function setProfilPicture(?string $profilPicture): self
+    {
+        $this->profilPicture = $profilPicture;
+
+        return $this;
+    }
+
+    public function getAdresses(): ?Adresse
+    {
+        return $this->adresses;
+    }
+
+    public function setAdresses(?Adresse $adresses): self
+    {
+        $this->adresses = $adresses;
+
+        return $this;
     }
 
 }

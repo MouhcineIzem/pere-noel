@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
-            {{ form(form) }}
+            <div class="mx-2">{{ form(form) }}</div>
             <h6><a href="{{ path('categorie_index') }}" class="text-dark text-decoration-none ml-2">
                     <i class="fas fa-list"></i> categories</a>
             </h6>
@@ -16,7 +16,7 @@
             <div class="row">
                 {% for cadeau in cadeaus %}
                     <div class=" col-md-3 mx-2 my-2">
-                        <div class="decoration__data">
+                        <div class="decoration__data" >
                             <img src=" {% if cadeau.image %}
                                             {{ asset("uploads/cadeaux/"~cadeau.image) }}
                                        {% else %}

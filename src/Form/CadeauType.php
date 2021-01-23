@@ -32,7 +32,7 @@ class CadeauType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '4000k',
+                        'maxSize' => '9000k',
                     ])
                 ]
             ])

@@ -6,6 +6,7 @@
 parameters:
     images_cadeaux: '%kernel.project_dir%/public/uploads/cadeaux'
     images_categories: '%kernel.project_dir%/public/uploads/categories'
+    profil_pictures_users: '%kernel.project_dir%/public/uploads/Users'
 
 services:
     # default configuration for services in *this* file
