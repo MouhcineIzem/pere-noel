@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1 class="text-center p-5">{{pluriels(categories | length, "categorie")}} </h1>
-            <div class="row my-2" >
+            <div class="row mx-5" >
         {% for categorie in categories %}
 
                     <div class="accessory__content  col-md-3 mx-3 mb-4">
@@ -22,12 +22,14 @@
                     </div>
 
         {% else %}
-            <div>
-                <h6 colspan="3">no records found</h6>
+            <div class="mx-5 ">
+                <h6>Pas de Categories</h6>
             </div>
         {% endfor %}
             </div>
 
 
-   <a href="{{ path('categorie_new') }}" class="btn btn-info mx-3 my-3">Create new</a>
+    {% if app.user and is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('categorie_new') }}" class="btn btn-info mx-3 my-3">Create new</a>
+    {% endif %}
 {% endblock %}

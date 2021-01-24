@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +13,28 @@ class AdminController extends AbstractController
     /**
      * @Route("/pereNoel", name="admin_pereNoel")
      */
-    public function index(UserRepository $repository): Response
+    public function index(UserRepository $repository, PanierRepository $panierRepository): Response
     {
         $number = 1;
+        $users = $repository->findAll();
+        $panier = $panierRepository->findOneBy(["person" => $users]);
 
         return $this->render('admin/index.html.twig', [
-            'users' => $repository->findAll(),
-            "number" => $number
+            'users' => $users,
+            "number" => $number,
+            'panier' => $panier
+        ]);
+    }
+
+    /**
+     * @Route("/pereNoel/list/{id}", name="admin_pereNoel_list")
+     */
+    public function showList($id, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->findOneById($id);
+
+        return $this->render('admin/list-cadeaux.html.twig', [
+            'user' => $user
         ]);
     }
 }

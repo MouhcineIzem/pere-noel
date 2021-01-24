@@ -73,9 +73,17 @@ class User implements UserInterface
      */
     private $adresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="person")
+     */
+    private $paniers;
+
+
+
     public function __construct()
     {
         $this->list_cadeaux = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
 
@@ -239,7 +247,8 @@ class User implements UserInterface
     public function age()
     {
         $now = new \DateTime();
-       return  $now->diff($this->getDateDeNaissance());
+
+       return $now->diff($this->getDateDeNaissance())->format('%d');
     }
 
     public function getProfilPicture(): ?string
@@ -265,5 +274,36 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Panier[]
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getPerson() === $this) {
+                $panier->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+    
 
 }

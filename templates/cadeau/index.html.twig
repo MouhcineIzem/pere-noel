@@ -10,6 +10,16 @@
             <h6><a href="{{ path('categorie_index') }}" class="text-dark text-decoration-none ml-2">
                     <i class="fas fa-list"></i> categories</a>
             </h6>
+                <div class="border mx-2">
+                    {% for categorie in categories  %}
+                        <div class="mx-2 my-3 border-bottom">
+                            <p>
+                                <a class="text-decoration-none" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+
         </div>
         <div class="col-md-10 ">
             <h4 class="text-center p-2">Liste des cadeaux</h4>
@@ -26,20 +36,21 @@
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2">Details</a>
                             {% if app.user %}
-                            <a href="{{ path('panier') }}" class=" button button-link text-success">Ajouter</a>
+                            <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
                             {% endif %}
                         </div>
                     </div>
                 {% else %}
                     <h5 class="text-center bg-warning">
-                        Pas de cadeaux encore créer
+                        Pas de cadeaux encores créer
                     </h5>
                 {% endfor %}
             </div>
         </div>
     </div>
-
-    <a href="{{ path('cadeau_new') }}" class="btn btn-info mx-3 my-3">Create new</a>
+    {% if app.user and is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('cadeau_new') }}" class="btn btn-info mx-3 my-3">Creer un cadeau</a>
+    {% endif %}
 
 
 {% endblock %}

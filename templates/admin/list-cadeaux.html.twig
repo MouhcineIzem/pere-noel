@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}list des cadeaux : {% endblock %}
+
+{% block body %}
+    <style>
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+        }
+        .dashboard .dashboard-center {
+            margin-right: 20px;
+        }
+    </style>
+    <div class="dashboard">
+        <div>
+            <div class="card my-5" style="width: 18rem;">
+                <div class="card-header">
+                    Name : {{ user.firstName }}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Age : {{ pluriels(user.age, 'an') }}</li>
+                    <li class="list-group-item">Genre : {{ user.sexe }}</li>
+                </ul>
+            </div>
+
+            <div class="card my-5" style="width: 18rem;">
+                <div class="card-header">
+                    Featured
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dashboard-center">
+            <div class="card my-5" style="width: 50rem;">
+                <div class="card-header">
+                    Actions
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="">Gerer les utilsateurs</a></li>
+                    <li class="list-group-item"><a href="{{ path('panier') }}">Gerer la liste des cadeaux</a></li>
+                    <li class="list-group-item"><a href="">Gerer les adresses</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

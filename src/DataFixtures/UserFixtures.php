@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setFirstName($faker->name);
             $user->setLastName($faker->lastName);
-            $user->setUsername("technicien-".$faker->userName);
+            $user->setUsername("user-".$i);
             $user->setRoles(['ROLE_USER']);
             $user->setSexe($faker->randomElement(["Homme", "Femme"]));
             $user->setDateDeNaissance($faker->dateTimeBetween());
@@ -36,17 +36,18 @@ class UserFixtures extends Fixture
             $user->setPassword($encrypted);
             $manager->persist($user);
 
-            $admin = new User();
-            $admin->setFirstName($faker->name);
-            $admin->setLastName($faker->lastName);
-            $admin->setUsername('ingenieur-'.$faker->userName);
-            $admin->setRoles(['ROLE_ADMIN']);
-            $admin->setSexe($faker->randomElement(["Homme", "Femme"]));
-            $admin->setDateDeNaissance($faker->dateTimeBetween());
-            $encrypted = $this->passwordEncoder->encodePassword($user, 'admin');
-            $admin->setPassword($encrypted);
-            $manager->persist($admin);
         }
+
+        $admin = new User();
+        $admin->setFirstName($faker->name);
+        $admin->setLastName($faker->lastName);
+        $admin->setUsername('pere-noel');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setSexe("Homme");
+        $admin->setDateDeNaissance($faker->dateTimeBetween());
+        $encrypted = $this->passwordEncoder->encodePassword($user, 'admin');
+        $admin->setPassword($encrypted);
+        $manager->persist($admin);
 
 
         $manager->flush();

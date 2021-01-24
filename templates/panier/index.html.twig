@@ -8,38 +8,51 @@
         <div class="row">
             <div class="col-md-12">
                 <h4 class="text-center p-4">List de mes cadeaux pour Noel</h4>
-                <div class="table-responsive">
-                    <table id="mytable" class="table table-bordred table-striped">
+                {% if panier | length > 0%}
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
 
-                        <thead>
-                        <th>Image</th>
-                        <th>Designation</th>
-                        <th>Age</th>
-                        <th>prix</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        </thead>
-                        <tbody>
+                            <thead>
+                            <th>Image</th>
+                            <th>Designation</th>
+                            <th>Age</th>
+                            <th>Prix</th>
+                            <th>User</th>
+                            <th>Delete</th>
+                            </thead>
+                            <tbody>
+                            {% set total = null %}
+                            {% for item in panier %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ asset("uploads/cadeaux/"~item.cadeau.image) }}" alt=""
+                                             class="img-thumbnail img_panier">
+                                    </td>
+                                    <td>{{ item.cadeau.designation }}</td>
+                                    <td>{{ pluriels(item.cadeau.age, 'an') }}</td>
+                                    <td>{{ item.cadeau.prix }} €</td>
+                                    <td>{{ item.person }}</td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></p></td>
+                                </tr>
+                                {%  set total = item.cadeau.prix + total  %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th class="text-primary">Total</th>
+                            <th class="text-dark text-right">{{ total }} €</th>
+                            </thead>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center my-5">
+                        <h3 class="text-warning">Pas de Liste de cadeaux pour cette Personne</h3>
+                    </div>
+                {% endif %}
 
-                        <tr>
-                            <td>
-                                <img src="{{ asset('assets/img/decoration1.png') }}" alt=""
-                                     class="img-thumbnail img_panier">
-                            </td>
-                            <td>IronMan</td>
-                            <td>1 an</td>
-                            <td>20.99 €</td>
-                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ><i class="fas fa-edit"></i></button></p></td>
-                            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></p></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
 
             </div>
         </div>
     </div>
-
-
-
 {% endblock %}

@@ -7,8 +7,10 @@ use App\Entity\Cadeau;
 use App\Form\CadeauType;
 use App\Form\SearchType;
 use App\Repository\CadeauRepository;
+use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,26 +23,30 @@ class CadeauController extends AbstractController
     /**
      * @Route("/", name="cadeau_index", methods={"GET"})
      */
-    public function index(CadeauRepository $cadeauRepository, Request $request): Response
+    public function index(CadeauRepository $cadeauRepository, Request $request, CategorieRepository $categorieRepository): Response
     {
         $cadeaux = $cadeauRepository->findAll();
+        $categories = $categorieRepository->findAll();
+
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $cadeaux = $cadeauRepository->findWithSearch($search);
-            //dd($cadeau);
+
         }
 
         return $this->render('cadeau/index.html.twig', [
             'cadeaus' => $cadeaux,
+            'categories' => $categories,
             'form' => $form->createView()
         ]);
     }
 
     /**
      * @Route("/new", name="cadeau_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
