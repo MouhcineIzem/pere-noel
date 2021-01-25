@@ -4,48 +4,65 @@
 		<div class="collapse navbar-collapse" id="collapsibleNavId">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active">
+					<a href="{{ path('home') }}">
+						<img src="{{asset('assets/images/santa-claus.svg')}}" width="50" class="mx-2" />
+					</a>
+				</li>
+				<li class="nav-item active">
 					<a class="nav-link" href="{{path('home')}}">Home
 						<span class="sr-only">(current)</span>
 					</a>
 				</li>
-				{% if app.user %}
-					<li class="nav-item active">
-						<a class="nav-link " href="{{ path('app_logout') }}">Deconnexion</a>
-					</li>
-					<li class="nav-item active">
-						<a class="nav-link " href="{{ path('panier') }}">Ma liste</a>
-					</li>
-					{% if app.user.adresses %}
-						<li class="nav-item active">
-							<a class="nav-link " href="{{ path('adresse_show', {"id" : app.user.adresses.id}) }}">Mon Adresse</a>
-						</li>
-					{% endif %}
-				{% else %}
-					<li class="nav-item ml-2 active">
-						<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
-					</li>
-					<li class="nav-item active">
-						<a class="nav-link" href="{{path('register')}}">Inscription</a>
-					</li>
-				{% endif %}
 				<li class="nav-item active">
 					<a class="nav-link" href="{{path('cadeau_index')}}">Catalogue</a>
 				</li>
+				{% if is_granted("ROLE_ADMIN") %}
+				<li class="nav-item active">
+					<a class="nav-link" href="{{path('admin_pereNoel')}}">Dashboard</a>
+				</li>
+				{% endif %}
 			</ul>
-			{% if app.user %}
-				<div class="card_user">
-					<img src=" {% if app.user.profilPicture %}
+			<ul class="navbar-nav  mt-2 mt-lg-0 text-right">
+				{% if app.user %}
+					<div class="card_user">
+						<a href="{{ path('update', {"id": app.user.id}) }}">
+						<img src=" {% if app.user.profilPicture %}
 								{{ asset('uploads/users/'~app.user.profilPicture) }}
 								{% else %}
 								https://picsum.photos/200
 								{% endif %}
-					" alt="{{ app.user.firstName }}">
-					<h6><a href="{{ path('update', {"id": app.user.id}) }}">{{ app.user.firstName }}</a></h6>
-				</div>
+					" alt="{{ app.user.firstName }}"></a>
+					</div>
+					<div class="dropdown">
+						<button class="bg-danger btn-outline-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{{ app.user.firstName}}
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a>
+							{% if not is_granted("ROLE_ADMIN")  %}
+								<a class="dropdown-item" href="{{ path('panier_userConnecte') }}">Ma liste</a>
+							{% endif %}
+							{% if app.user.adresses %}
+									<a class="dropdown-item" href="{{ path('adresse_show', {"id" : app.user.adresses.id}) }}">Mon Adresse</a>
+							{% endif %}
+						</div>
+					</div>
+
+				{% else %}
+					<div class="dropdown">
+						<button class="bg-danger btn-outline-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Connecter
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="{{path('app_login')}}">Connexion</a>
+							<a class="dropdown-item" href="{{path('register')}}">Inscription</a>
+						</div>
+					</div>
+				{% endif %}
+			</ul>
+			{% if app.user %}
+
 			{% endif %}
-			<a href="{{ path('home') }}">
-				<img src="{{asset('assets/images/santa-claus.svg')}}" width="50" class="mx-2" />
-			</a>
 		</div>
 	</nav>
 </header>

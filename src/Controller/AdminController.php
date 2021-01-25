@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\AdresseRepository;
+use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,6 +60,24 @@ class AdminController extends AbstractController
         return $this->render('admin/list_adresses.html.twig', [
             'users' => $users,
             'villes' => array_unique($villes)
+        ]);
+    }
+
+    /**
+     *@Route("/pereNoel/cadeaux", name="pereNoel_cadeaux")
+     */
+    public function cadeauxUsers(CadeauRepository $cadeauRepository, PanierRepository $panierRepository)
+    {
+        $number = 1;
+        $cadeaux = $cadeauRepository->findAll();
+        $panier = $panierRepository->findAll();
+
+
+
+        return $this->render('admin/cadeaux_list.html.twig', [
+            'cadeaux' => $cadeaux,
+            'number' => $number,
+            'panier' => $panier
         ]);
     }
 }

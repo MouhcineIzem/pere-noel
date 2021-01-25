@@ -26,10 +26,10 @@
 
     <div class="text-left p-2 border w-50">
         <h6 class="text-dark">
-            Le total des prix des cadeaux de <strong>{{categorie.name }}</strong>  est de : <strong class="text-success">{{ total }} €</strong>
+            Le total des prix des cadeaux de <strong>{{categorie.name }}</strong>  est de : <strong class="text-success">{{ total | number_format(2,'.',',') }} €</strong>
         </h6>
         <h6 class="text-dark">
-            La moyenne des prix des cadeaux de <strong>{{categorie.name }}</strong> est de  : <strong class="text-success">{{ total / (categorie.cadeaus | length) }} €</strong>
+            La moyenne des prix des cadeaux de <strong>{{categorie.name }}</strong> est de  : <strong class="text-success">{{ (total / (categorie.cadeaus | length)) | number_format(2,'.',',') }} €</strong>
         </h6>
     </div>
     {% else %}

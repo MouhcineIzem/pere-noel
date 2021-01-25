@@ -3,7 +3,6 @@
 {% block title %}Cadeau index{% endblock %}
 
 {% block body %}
-    {{ dump(panier) }}
     <div class="row">
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
@@ -15,7 +14,7 @@
                     {% for categorie in categories  %}
                         <div class="mx-2 my-3 border-bottom">
                             <p>
-                                <a class="text-decoration-none" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
+                                <a class="text-decoration-none text-success cat-link" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
                             </p>
                         </div>
                     {% endfor %}
@@ -26,6 +25,7 @@
             <h4 class="text-center p-2">Liste des cadeaux</h4>
             <div class="row">
                 {% for cadeau in cadeaus %}
+                    {% set ajoute = false %}
                     <div class=" col-md-3 mx-2 my-2">
                         <div class="decoration__data" >
                             <img src=" {% if cadeau.image %}
@@ -33,18 +33,23 @@
                                        {% else %}
                                             {{ asset("assets/img/decoration1.png") }}
                                        {% endif %}
-                            " alt="" class="decoration__img">
+                            " alt="" class="decoration__img img_hover">
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2">Details</a>
                             {% if app.user %}
-                                {% for item in panier  %}
+                                {% for item in panier %}
                                     {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
-                                        <a href="">deja</a>
-                                    {% else %}
-                                        <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
+                                        {% set ajoute = true %}
                                     {% endif %}
                                 {% endfor %}
+                                {% if ajoute %}
+                                    <p>déjà ajouté</p>
+                                {% else %}
+                                    <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
+                                {% endif %}
                             {% endif %}
+
+
                         </div>
                     </div>
                 {% else %}

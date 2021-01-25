@@ -4,9 +4,8 @@
 
 {% block body %}
     <h1 class="text-center p-5">{{pluriels(categories | length, "categorie")}} </h1>
-            <div class="row mx-5" >
+            <div class="row mx-5 p-3">
         {% for categorie in categories %}
-
                     <div class="accessory__content  col-md-3 mx-3 mb-4">
                         <img src=" {% if categorie.image %}
                                         {{ asset("uploads/categories/"~categorie.image) }}

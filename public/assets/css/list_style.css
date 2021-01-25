@@ -25,3 +25,18 @@
     border-radius: 50%;
     border: dimgray;
 }
+
+.img_hover {
+    transition: 90ms ;
+    cursor: pointer;
+}
+.img_hover:hover {
+    transform: scale(1.9);
+}
+
+.cat-link {
+    transition: 2s;
+}
+.cat-link:hover {
+    transform: scale(2);
+}

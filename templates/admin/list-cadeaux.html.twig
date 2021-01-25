@@ -24,17 +24,6 @@
                 </ul>
             </div>
 
-            <div class="card my-5" style="width: 18rem;">
-                <div class="card-header">
-                    Featured
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-        </div>
         <div class="dashboard-center">
             <div class="card my-5" style="width: 50rem;">
                 <div class="card-header">
@@ -42,8 +31,7 @@
                 </div>
                 {{ dump(user.adresses) }}
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="">Gerer les utilsateurs</a></li>
-                    <li class="list-group-item"><a href="{{ path('panier') }}">Gerer la liste des cadeaux</a></li>
+                    <li class="list-group-item"><a href="{{ path('panier_admin', {'id': user.id}) }}">Gerer la liste des cadeaux</a></li>
                     {% if user.adresses %}
                         <li class="list-group-item"><a href="{{ path('adresse_show', {'id' : user.adresses.id}) }}">Gerer les adresses</a></li>
                     {% else %}

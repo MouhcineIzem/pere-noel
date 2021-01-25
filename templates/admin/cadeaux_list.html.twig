@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <div class="container text-center p-4">
+            <h3>Les commandes de tous les utilisateures : </h3>
+        </div>
+        <table class="table">
+            <thead class="bg-warning">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cadeaux-name</th>
+                <th>Cadeaux prix</th>
+            </tr>
+            </thead>
+            <tbody class="">
+            {% set total = null %}
+            {% for item in panier %}
+                    <tr>
+                        <th scope="row">{{ number }}</th>
+                        <td>{{ item.cadeau.designation }}</td>
+                        <td class="text-right">{{ item.cadeau.prix }} </td>
+                    </tr>
+                {% set number = number + 1 %}
+                {% set total = total + item.cadeau.prix %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <table class="table">
+            <tbody>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td class="text-right">{{ total | number_format(2,',','.') }} €</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

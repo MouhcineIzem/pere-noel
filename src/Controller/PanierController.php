@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\User;
 use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,13 +26,27 @@ class PanierController extends AbstractController
     }
 
     /**
-     *@Route("/panier", name="panier")
+     *@Route("/panier", name="panier_userConnecte")
      */
     public function index(PanierRepository $panierRepository)
     {
+
         $panier = $panierRepository->findBy(["person" => $this->getUser()]);
         //$panier = $panierRepository->findAll();
         //dd($panier);
+
+        return $this->render('panier/index.html.twig', [
+            'panier' => $panier
+        ]);
+    }
+    /**
+     *@Route("/panier/{id}", name="panier_admin")
+     */
+    public function indexPanier(PanierRepository $panierRepository, $id, UserRepository $userRepository)
+    {
+        $user = $userRepository->findById($id);
+        //dd($user);
+        $panier = $panierRepository->findBy(["person" => $user]);
 
         return $this->render('panier/index.html.twig', [
             'panier' => $panier
