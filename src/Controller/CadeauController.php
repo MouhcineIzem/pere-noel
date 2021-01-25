@@ -8,6 +8,7 @@ use App\Form\CadeauType;
 use App\Form\SearchType;
 use App\Repository\CadeauRepository;
 use App\Repository\CategorieRepository;
+use App\Repository\PanierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,10 +24,13 @@ class CadeauController extends AbstractController
     /**
      * @Route("/", name="cadeau_index", methods={"GET"})
      */
-    public function index(CadeauRepository $cadeauRepository, Request $request, CategorieRepository $categorieRepository): Response
+    public function index(CadeauRepository $cadeauRepository, Request $request, CategorieRepository $categorieRepository, PanierRepository  $panierRepository): Response
     {
         $cadeaux = $cadeauRepository->findAll();
         $categories = $categorieRepository->findAll();
+
+        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
+
 
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
@@ -40,6 +44,7 @@ class CadeauController extends AbstractController
         return $this->render('cadeau/index.html.twig', [
             'cadeaus' => $cadeaux,
             'categories' => $categories,
+            'panier' => $panier,
             'form' => $form->createView()
         ]);
     }

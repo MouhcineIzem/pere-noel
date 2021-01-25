@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\AdresseRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,12 +30,14 @@ class AdminController extends AbstractController
     /**
      * @Route("/pereNoel/list/{id}", name="admin_pereNoel_list")
      */
-    public function showList($id, UserRepository $userRepository): Response
+    public function showList($id, UserRepository $userRepository, AdresseRepository $adresseRepository): Response
     {
         $user = $userRepository->findOneById($id);
+        $userAdress = $userRepository->findBy(["adresses" => $user->getAdresses()]);
 
         return $this->render('admin/list-cadeaux.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'adress' => $userAdress
         ]);
     }
 }

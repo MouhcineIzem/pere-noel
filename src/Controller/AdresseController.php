@@ -57,11 +57,13 @@ class AdresseController extends AbstractController
     public function new(Request $request): Response
     {
         $adresse = new Adresse();
+        $user = $this->getUser();
         $form = $this->createForm(AdresseType::class, $adresse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $adresse->addUser($user);
             $entityManager->persist($adresse);
             $entityManager->flush();
 

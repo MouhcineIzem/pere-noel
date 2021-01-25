@@ -246,6 +246,7 @@ class User implements UserInterface
 
     public function age()
     {
+        
         $now = new \DateTime();
 
        return $now->diff($this->getDateDeNaissance())->format('%d');

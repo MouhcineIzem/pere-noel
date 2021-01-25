@@ -3,6 +3,7 @@
 {% block title %}Cadeau index{% endblock %}
 
 {% block body %}
+    {{ dump(panier) }}
     <div class="row">
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
@@ -36,7 +37,13 @@
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2">Details</a>
                             {% if app.user %}
-                            <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
+                                {% for item in panier  %}
+                                    {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
+                                        <a href="">deja</a>
+                                    {% else %}
+                                        <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         </div>
                     </div>

@@ -41,7 +41,7 @@
                         <table id="mytable" class="table table-bordred table-striped">
                             <thead>
                             <th class="text-primary">Total</th>
-                            <th class="text-dark text-right">{{ total }} €</th>
+                            <th class="text-dark text-right">{{ total | number_format(2,',','.') }} €</th>
                             </thead>
                         </table>
                     </div>

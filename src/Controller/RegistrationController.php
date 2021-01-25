@@ -104,7 +104,7 @@ class RegistrationController extends AbstractController
     public function profile($id, UserRepository $repository)
     {
         $user = $repository->findOneById($id);
-        $age = $user->age()->y ;
+        $age = $user->age() ;
 
         
         return $this->render('registration/profile.html.twig', [

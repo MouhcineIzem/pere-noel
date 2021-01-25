@@ -8,7 +8,7 @@
         <div class="row">
             {% set total = null %}
             {% for cadeau in categorie.cadeaus %}
-                <div class=" col-md-3 mx-2 my-2">
+                <div class="col-md-3 container my-5">
                     <div class="decoration__data">
                         <img src="{% if cadeau.image %}
                                                 {{ asset("uploads/cadeaux/"~cadeau.image) }}
@@ -24,12 +24,12 @@
             {% endfor %}
         </div>
 
-    <div class="container text-right p-2 border-info">
-        <h6 class="text-info">
-            Le total des prix des cadeaux de {{categorie.name }}  est de : {{ total }} €
+    <div class="text-left p-2 border w-50">
+        <h6 class="text-dark">
+            Le total des prix des cadeaux de <strong>{{categorie.name }}</strong>  est de : <strong class="text-success">{{ total }} €</strong>
         </h6>
-        <h6 class="text-success">
-            La moyenne des prix des cadeaux de {{categorie.name }} est de  : {{ total / (categorie.cadeaus | length) }} €
+        <h6 class="text-dark">
+            La moyenne des prix des cadeaux de <strong>{{categorie.name }}</strong> est de  : <strong class="text-success">{{ total / (categorie.cadeaus | length) }} €</strong>
         </h6>
     </div>
     {% else %}
@@ -39,8 +39,9 @@
     {% endif %}
 
     <a href="{{ path('categorie_index') }}" class="btn btn-info mx-3 my-2">back to list</a>
+    {% if app.user and is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('categorie_edit', {'id': categorie.id}) }}" class="btn btn-info">edit</a>
+        {{ include('categorie/_delete_form.html.twig') }}
+    {% endif %}
 
-    <a href="{{ path('categorie_edit', {'id': categorie.id}) }}" class="btn btn-info">edit</a>
-
-    {{ include('categorie/_delete_form.html.twig') }}
 {% endblock %}
