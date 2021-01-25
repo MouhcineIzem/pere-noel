@@ -15,6 +15,11 @@
 					<li class="nav-item active">
 						<a class="nav-link " href="{{ path('panier') }}">Ma liste</a>
 					</li>
+					{% if app.user.adresses %}
+						<li class="nav-item active">
+							<a class="nav-link " href="{{ path('adresse_show', {"id" : app.user.adresses.id}) }}">Mon Adresse</a>
+						</li>
+					{% endif %}
 				{% else %}
 					<li class="nav-item ml-2 active">
 						<a class="nav-link" href="{{path('app_login')}}">Connexion</a>

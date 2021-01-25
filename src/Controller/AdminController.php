@@ -40,4 +40,25 @@ class AdminController extends AbstractController
             'adress' => $userAdress
         ]);
     }
+
+    /**
+     *@Route("/pereNoel/adresses", name="pereNoel_adresses")
+     */
+    public function adressesUsers(UserRepository $userRepository, AdresseRepository  $adresseRepository)
+    {
+        $users = $userRepository->findAll();
+        $villesDupliquées = $adresseRepository->findAll();
+        $villes = [];
+        //dd($users);
+
+        foreach ($villesDupliquées as $v) {
+            $villes[] = $v->getVille();
+        }
+
+
+        return $this->render('admin/list_adresses.html.twig', [
+            'users' => $users,
+            'villes' => array_unique($villes)
+        ]);
+    }
 }

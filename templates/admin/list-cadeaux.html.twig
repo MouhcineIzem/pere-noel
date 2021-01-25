@@ -40,10 +40,15 @@
                 <div class="card-header">
                     Actions
                 </div>
+                {{ dump(user.adresses) }}
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><a href="">Gerer les utilsateurs</a></li>
                     <li class="list-group-item"><a href="{{ path('panier') }}">Gerer la liste des cadeaux</a></li>
-                    <li class="list-group-item"><a href="">{{ dump(user.adresses) }}Gerer les adresses</a></li>
+                    {% if user.adresses %}
+                        <li class="list-group-item"><a href="{{ path('adresse_show', {'id' : user.adresses.id}) }}">Gerer les adresses</a></li>
+                    {% else %}
+                        <li class="list-group-item">Pas d'adresse</li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

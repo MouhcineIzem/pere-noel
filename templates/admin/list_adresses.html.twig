@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adresse index{% endblock %}
+
+{% block body %}
+    <style>
+        .lolo {
+            display: flex;
+        }
+    </style>
+    <h1 class=" container text-center p-4">Mes Adresses</h1>
+    <div class="row">
+        <div class="text-center col-md-12 my-3 mx-3 lolo">
+            <h4 > {{ villes | length }} Villes</h4>
+            {% set newVilles = [] %}
+            {% for user in users %}
+                {% if user.adresses and user.adresses.ville not in newVilles %}
+                    <div class="mx-5">
+                        <input type="checkbox"> {{ user.adresses.ville }}
+                    </div>
+                    {% set  newVilles = newVilles|merge([user.adresses.ville])%}
+                {% endif %}
+            {% endfor %}
+
+            <a href="" class="btn btn-success ">Filtrer</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Rue</th>
+            <th>Numero</th>
+            <th>CodePostal</th>
+            <th>Ville</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ dump(users) }}
+        {% for user in users %}
+            {% if user.adresses %}
+                <tr>
+                    <td>{{ user.adresses.id }}</td>
+                    <td>{{ user.adresses.rue }}</td>
+                    <td>{{ user.adresses.numero }}</td>
+                    <td>{{ user.adresses.codePostal }}</td>
+                    <td>{{ user.adresses.ville }}</td>
+                    <td>
+                        <a href="{{ path('adresse_show', {'id': user.adresses.id}) }}">show</a>
+                        <a href="{{ path('adresse_edit', {'id': user.adresses.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+{% endblock %}

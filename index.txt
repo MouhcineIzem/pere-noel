@@ -1,0 +1,32 @@
+
+
+{% set newVilles = [] %}
+            {% for adresse in users.adresses %}
+                {% if adresse.ville not in newVilles %}
+                    <div class="mx-5">
+                        <input type="checkbox"> {{ adresse.ville }}
+                    </div>
+                    {% set  newVilles = newVilles|merge([adresse.ville])%}
+                {% endif %}
+            {% endfor %}
+
+
+
+
+{% for adress in users.adresses %}
+            <tr>
+                <td>{{ adresss.id }}</td>
+                <td>{{ adresss.rue }}</td>
+                <td>{{ adresss.numero }}</td>
+                <td>{{ adress.codePostal }}</td>
+                <td>{{ adress.ville }}</td>
+                <td>
+                    <a href="{{ path('adresse_show', {'id': adress.id}) }}">show</a>
+                    <a href="{{ path('adresse_edit', {'id': adress.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}

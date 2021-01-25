@@ -3,27 +3,7 @@
 {% block title %}Adresse index{% endblock %}
 
 {% block body %}
-    <style>
-        .lolo {
-            display: flex;
-        }
-    </style>
-    <h1 class=" container text-center p-4">Mes Adresses</h1>
-    <div class="row">
-        <div class="text-center col-md-12 my-3 mx-3 lolo">
-            <h4 > {{ villes | length }} Villes</h4>
-            {% set newVilles = [] %}
-            {% for adresse in adresses %}
-                {% if adresse.ville not in newVilles %}
-                    <div class="mx-5">
-                        <input type="checkbox"> {{ adresse.ville }}
-                    </div>
-                {% set  newVilles = newVilles|merge([adresse.ville])%}
-                {% endif %}
-            {% endfor %}
-            <a href="" class="btn btn-success ">Filtrer</a>
-        </div>
-    </div>
+    <h1 class=" container text-center p-4">Mon Adresse</h1>
 
     <table class="table">
         <thead>
@@ -37,23 +17,24 @@
             </tr>
         </thead>
         <tbody>
-        {% for adresse in adresses %}
+        {{ dump(app.user.adresses) }}
+        {% if app.user.adresses %}
             <tr>
-                <td>{{ adresse.id }}</td>
-                <td>{{ adresse.rue }}</td>
-                <td>{{ adresse.numero }}</td>
-                <td>{{ adresse.codePostal }}</td>
-                <td>{{ adresse.ville }}</td>
+                <td>{{ app.user.adresses.id }}</td>
+                <td>{{ app.user.adresses.rue }}</td>
+                <td>{{ app.user.adresses.numero }}</td>
+                <td>{{ app.user.adresses.codePostal }}</td>
+                <td>{{ app.user.adresses.ville }}</td>
                 <td>
-                    <a href="{{ path('adresse_show', {'id': adresse.id}) }}">show</a>
-                    <a href="{{ path('adresse_edit', {'id': adresse.id}) }}">edit</a>
+                    <a href="{{ path('adresse_show', {'id': app.user.adresses.id}) }}">show</a>
+                    <a href="{{ path('adresse_edit', {'id': app.user.adresses.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
-        {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 
