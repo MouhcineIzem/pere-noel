@@ -1,21 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/cadeau-card.css') }}">
 {% endblock %}
 {% block body %}
+
     <main class="l-main">
         <section class="home" id="home">
-            <div class="home__container bd-container bd-grid">
-                <div class="home__img">
-                    <img src="{{ asset("assets/img/home.png") }}" />
-                </div>
+               <div class="home__container bd-container bd-grid">
+                    <div class="home__img">
+                        <img src="{{ asset("assets/img/home.png") }}" />
+                    </div>
 
-                <div class="home__data">
-                    <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
-                    <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
-                    <a href="{{ path('app_list') }}" class="button">Get Started</a>
+                    <div class="home__data">
+                        <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
+                        <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
+                        <a href="{{ path('app_list') }}" class="button">Get Started</a>
+                    </div>
                 </div>
-            </div>
         </section>
     </main>
     

@@ -19,6 +19,8 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th>age</th>
+                <th>genre</th>
                 <th>Adresse</th>
                 <th scope="col">Nombre de cadeaux</th>
                 <th scope="col">Show</th>
@@ -29,6 +31,8 @@
                     <tr>
                         <th scope="row">{{ number }}</th>
                         <td>{{ user }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.sexe }}</td>
                         <td>
                             {% if user.adresses %}
                                 {{ user.adresses }}
