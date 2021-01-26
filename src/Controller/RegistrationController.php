@@ -31,6 +31,9 @@ class RegistrationController extends AbstractController
             $image = $form->get('profilPicture')->getData();
             //dd($image);
 
+            // set ROLE_USER pour les nouveaux Inscrits :
+
+
             if ($image) {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -48,7 +51,9 @@ class RegistrationController extends AbstractController
 
                 $user->setProfilPicture($newFilename);
             }
-            // encode the plain password
+
+
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -56,16 +61,18 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
+
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
-                'main' // firewall name in security.yaml
+                'main'
             );
         }
 

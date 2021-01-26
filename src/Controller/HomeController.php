@@ -33,7 +33,12 @@ class HomeController extends AbstractController
         return $this->render('home/liste_cadeaux.html.twig');
     }
 
+    /**
+     *@Route("/test", name="test_app")
+     */
+    public function testMyApp() {
 
-
+        return $this->render('home/test_app.html.twig');
+    }
 
 }

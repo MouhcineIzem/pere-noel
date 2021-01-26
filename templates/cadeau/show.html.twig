@@ -2,39 +2,41 @@
 
 {% block title %}Cadeau{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/cadeau-card.css') }}">
+{% endblock  %}
+
 {% block body %}
     <h1 class="container text-center p-2">{{ cadeau.designation }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cadeau.id }}</td>
-            </tr>
-            <tr>
-                <th>Designation</th>
-                <td>{{ cadeau.designation }}</td>
-            </tr>
-            <tr>
-                <th>Categorie</th>
-                <td>{{ cadeau.categorie.name }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ pluriels(cadeau.age, 'an') }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ cadeau.prix | number_format(2,',','.')}} €</td>
-            </tr>
-            {% if cadeau.user %}
-            <tr>
-                <th>Créer par l'utilisateur : </th>
-                <td>{{ cadeau.user.firstName }}</td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <div class="w-50 mx-auto" id="ads">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">{{ cadeau.categorie.name }}</span>
+                <span class="card-notify-year">{{ cadeau.id }}</span>
+                <img src="
+                        {% if cadeau.image %}
+                                            {{ asset("uploads/cadeaux/"~cadeau.image) }}
+                                       {% else %}
+                                            {{ asset("assets/img/decoration1.png") }}
+                                       {% endif %}
+                "/>
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">{{ cadeau.designation }}</span>
+                <span class="card-detail-badge">{{ cadeau.prix | number_format(2,',','.')}} €</span>
+                {% if cadeau.user %}
+                <span class="card-detail-badge">{{ cadeau.user.firstName }}</span>
+                {% endif %}
+                <span class="card-detail-badge">{{ pluriels(cadeau.age, 'an') }}</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="ad-title m-auto">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
     {% set ajoute = false %}

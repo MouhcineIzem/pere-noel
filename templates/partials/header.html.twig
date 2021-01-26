@@ -1,6 +1,6 @@
 
 <header>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-{% if is_granted("ROLE_ADMIN") %}dark{% else %}danger{% endif %}">
 		<div class="collapse navbar-collapse" id="collapsibleNavId">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active">
@@ -26,7 +26,9 @@
 				{% if app.user %}
 					<div class="card_user">
 						<a href="{{ path('update', {"id": app.user.id}) }}">
-						<img src=" {% if app.user.profilPicture %}
+						<img src=" {% if is_granted("ROLE_ADMIN") %}
+								{{ asset('assets/img/admin.png') }}
+								{% elseif app.user.profilPicture %}
 								{{ asset('uploads/users/'~app.user.profilPicture) }}
 								{% else %}
 								https://picsum.photos/200
@@ -34,7 +36,7 @@
 					" alt="{{ app.user.firstName }}"></a>
 					</div>
 					<div class="dropdown">
-						<li class="bg-danger list-pointor btn-outline-dark dropdown-toggle mx-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<li class="bg-{% if is_granted("ROLE_ADMIN") %}dark{% else %}danger{% endif %} list-pointor btn-outline-dark dropdown-toggle mx-3 text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{{ app.user.firstName}}
 						</li>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
