@@ -9,6 +9,7 @@ use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -70,11 +71,29 @@ class PanierController extends AbstractController
         $this->entityManager->flush();
 
        if(!empty($panier)) {
-            return $this->redirectToRoute('panier');
+            return $this->redirectToRoute('panier_userConnecte');
        }
        else {
            return new Response("<h1>Panier Vide</h1>");
        }
+
+    }
+
+    /**
+     * @Route("/panier/delete/{id}", name="panier_delete_from_list")
+     */
+    public function delete(Request $request,$id,  PanierRepository $panierRepository, Panier $panier)
+    {
+        $panier = $panierRepository->findOneById($id);
+
+        //dd($panier);
+
+
+            $this->entityManager->remove($panier);
+            $this->entityManager->flush();
+
+
+        return $this->redirectToRoute('panier_userConnecte');
 
     }
 

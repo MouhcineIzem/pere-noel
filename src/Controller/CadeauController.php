@@ -97,10 +97,12 @@ class CadeauController extends AbstractController
     /**
      * @Route("/{id}", name="cadeau_show", methods={"GET"})
      */
-    public function show(Cadeau $cadeau): Response
+    public function show(Cadeau $cadeau, PanierRepository  $panierRepository): Response
     {
+        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
         return $this->render('cadeau/show.html.twig', [
             'cadeau' => $cadeau,
+            'panier' => $panier
         ]);
     }
 

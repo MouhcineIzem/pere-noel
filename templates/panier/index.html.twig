@@ -32,7 +32,7 @@
                                     <td>{{ pluriels(item.cadeau.age, 'an') }}</td>
                                     <td>{{ item.cadeau.prix }} €</td>
                                     <td>{{ item.person }}</td>
-                                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></p></td>
+                                    <td><a href="{{ path('panier_delete_from_list', {'id' : item.id}) }}"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></td>
                                 </tr>
                                 {%  set total = item.cadeau.prix + total  %}
                             {% endfor %}

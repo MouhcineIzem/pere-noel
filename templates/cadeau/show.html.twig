@@ -37,11 +37,23 @@
     </table>
 
     <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
+    {% set ajoute = false %}
+    {% if app.user %}
+        {% for item in panier %}
+            {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
+                {% set ajoute = true %}
+            {% endif %}
+        {% endfor %}
+        {% if ajoute %}
+            <a class="btn btn-dark text-right mx-5"> déjà ajouté</a>
+        {% else %}
+            <a href="{{ path('new_panier', {"cadeauId" : cadeau.id})}}" class="btn btn-success text-right mx-5">Ajouter au Panier</a>        {% endif %}
+    {% endif %}
 
-    <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>
 
-    <a href="{{ path('panier')}}"
-       class="btn btn-success text-right mx-5">Ajouter au Panier</a>
 
-    {{ include('cadeau/_delete_form.html.twig') }}
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>
+        {{ include('cadeau/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

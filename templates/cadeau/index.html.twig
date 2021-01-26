@@ -43,7 +43,7 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% if ajoute %}
-                                    <p>déjà ajouté</p>
+                                    <a class=" button button-link text-dark">déjà ajouté</a>
                                 {% else %}
                                     <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success">Ajouter</a>
                                 {% endif %}
