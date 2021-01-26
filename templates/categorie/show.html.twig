@@ -4,9 +4,11 @@
 
 {% block body %}
     <h2 class="container text-center p-3">Categorie des : {{ categorie.name }}</h2>
-    <div>
+    {% if is_granted("ROLE_ADMIN") %}
+    <div class="example-wrapper">
         {{ form(form) }}
     </div>
+    {% endif %}
 
     {% if categorie.cadeaus | length > 0 %}
         <div class="row">
@@ -20,8 +22,8 @@
                                                 {{ asset("assets/img/decoration1.png") }}
                                            {% endif %}" alt="" class="decoration__img">
                         <h3 class="decoration__title">{{ cadeau.designation }}</h3>
-                        <p><span><strong>{{ cadeau.prix }}</strong> €</span></p>
-                        <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">details ...</a>
+                        <p><span><strong>{{ cadeau.prix | number_format(2,',','.') }}</strong> €</span></p>
+                        <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link">details</a>
                     </div>
                 </div>
                 {%  set total = cadeau.prix + total  %}

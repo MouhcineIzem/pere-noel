@@ -2,13 +2,12 @@
 
 namespace App\Form;
 
-use App\Classe\Pourcentage;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Range;
 
 class PourcentageType extends AbstractType
 {
@@ -18,15 +17,24 @@ class PourcentageType extends AbstractType
             ->add('pourcentage', PercentType::class, [
                 'label' => false,
                 'required' => false,
+                'mapped' => false,
                 'attr' => [
-                    'placeholder' => "Augmenter le pourcentage...",
-                    'class' => 'form-control-sm'
+                    'placeholder' => "Augmenter ou diminuer le pourcentage...",
+                    'class' => 'form-control-sm',
+                    'autocomplete' => 'off'
+                ],
+                'constraints' => [
+                    new Range([
+                        'min' => -100,
+                        'max' => 100,
+                        'notInRangeMessage' => 'Pourcentage entre {{ min }}et {{ max }}'
+                    ])
                 ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Appliquer",
                 'attr' => [
-                    'class' => "btn btn-block btn-dark"
+                    'class' => "btn  btn-dark"
                 ]
             ]);
     }
