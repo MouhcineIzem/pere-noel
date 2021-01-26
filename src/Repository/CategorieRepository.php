@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Cadeau;
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,22 +20,33 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
-    // /**
-    //  * @return Categorie[] Returns an array of Categorie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function updatePriceWithPercent(Categorie $categorie, float $pourcentage)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('c');
+            $qb->join('c.cadeaus', 'ca')
+            ->update(Cadeau::class, 'ca')
+            ->set('ca.prix', sprintf('ca.prix + ca.prix*%f', $pourcentage))
+            ->where('ca.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
             ->getQuery()
-            ->getResult()
+            ->execute();
         ;
+//        $query = $this
+//            ->createQueryBuilder('c')
+//            ->update('ca', 'c')
+//            ->join('c.categorie', 'ca');
+//
+//        if (!empty($pourcentage->pourcentage)) {
+//            $query = $query
+//                ->andWhere('ca.prix =  ca.prix (:pourcentage)')
+//                ->setParameter('pourcentage', $pourcentage->pourcentage);
+//        }
+//
+//        return $query->getQuery()->getResult();
+
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Categorie

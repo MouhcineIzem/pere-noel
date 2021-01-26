@@ -38,7 +38,7 @@
 
     <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
     {% set ajoute = false %}
-    {% if app.user %}
+    {% if app.user and not is_granted("ROLE_ADMIN") %}
         {% for item in panier %}
             {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
                 {% set ajoute = true %}

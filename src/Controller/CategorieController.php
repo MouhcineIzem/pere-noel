@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Classe\Pourcentage;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
+use App\Form\PourcentageType;
 use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -71,12 +73,22 @@ class CategorieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="categorie_show", methods={"GET"})
+     * @Route("/{id}", name="categorie_show", methods={"GET", "POST"})
      */
-    public function show(Categorie $categorie): Response
+    public function show(Categorie $categorie, Request $request, CategorieRepository $categorieRepository): Response
     {
+        $form = $this->createForm(PourcentageType::class);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $categorieRepository->updatePriceWithPercent($categorie, $form->get('pourcentage')->getData());
+        }
+
+
         return $this->render('categorie/show.html.twig', [
             'categorie' => $categorie,
+            'form' => $form->createView()
+
         ]);
     }
 

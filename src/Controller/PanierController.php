@@ -8,6 +8,7 @@ use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class PanierController extends AbstractController
 
     /**
      *@Route("/panier", name="panier_userConnecte")
+     * @IsGranted("ROLE_USER")
      */
     public function index(PanierRepository $panierRepository)
     {

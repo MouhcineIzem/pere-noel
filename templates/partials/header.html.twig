@@ -34,9 +34,9 @@
 					" alt="{{ app.user.firstName }}"></a>
 					</div>
 					<div class="dropdown">
-						<button class="bg-danger btn-outline-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<li class="bg-danger list-pointor btn-outline-dark dropdown-toggle mx-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{{ app.user.firstName}}
-						</button>
+						</li>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								<a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a>
 							{% if not is_granted("ROLE_ADMIN")  %}
@@ -50,9 +50,9 @@
 
 				{% else %}
 					<div class="dropdown">
-						<button class="bg-danger btn-outline-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<li class="bg-danger btn-outline-dark mx-3 list-pointor dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Connecter
-						</button>
+						</li>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item" href="{{path('app_login')}}">Connexion</a>
 							<a class="dropdown-item" href="{{path('register')}}">Inscription</a>

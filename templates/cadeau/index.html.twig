@@ -14,7 +14,7 @@
                     {% for categorie in categories  %}
                         <div class="mx-2 my-3 border-bottom">
                             <p>
-                                <a class="text-decoration-none text-success cat-link" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
+                                <a class="text-decoration-none text-primary cat-link" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
                             </p>
                         </div>
                     {% endfor %}
@@ -35,8 +35,9 @@
                                        {% endif %}
                             " alt="" class="decoration__img img_hover">
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
+                            <p class="text-success font-weight-bold">{{ cadeau.prix | number_format(2,',','.') }} €</p>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2">Details</a>
-                            {% if app.user %}
+                            {% if app.user and not is_granted("ROLE_ADMIN") %}
                                 {% for item in panier %}
                                     {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
                                         {% set ajoute = true %}

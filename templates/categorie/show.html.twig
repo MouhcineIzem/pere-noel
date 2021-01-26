@@ -3,7 +3,11 @@
 {% block title %}Categorie{% endblock %}
 
 {% block body %}
-    <h2 class="container text-center p-3">Categorie des : {{ categorie.name~"s" }}</h2>
+    <h2 class="container text-center p-3">Categorie des : {{ categorie.name }}</h2>
+    <div>
+        {{ form(form) }}
+    </div>
+
     {% if categorie.cadeaus | length > 0 %}
         <div class="row">
             {% set total = null %}
