@@ -37,7 +37,7 @@
                                        {% else %}
                                             {{ asset("assets/img/decoration1.png") }}
                                        {% endif %}
-                            " alt="" class="decoration__img img_hover {% if app.user.age < cadeau.age %} image-flou {% endif %}">
+                            " alt="" class="decoration__img img_hover {% if app.user.age < cadeau.age and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}">
                             </a>
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <p class="text-warning font-weight-bold">{{ cadeau.prix | number_format(2,',','.') }} €</p>

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List des commades{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+        <div class="container text-center p-4">
+            <h3>Les commandes de tous les utilisateures : </h3>
+        </div>
+        <table class="table">
+            <thead class="bg-warning">
+            <tr>
+                <th scope="col">N° commande</th>
+                <th scope="col">Id</th>
+                <th scope="col">Cadeaux</th>
+                <th scope="col">Person</th>
+            </tr>
+            </thead>
+            <tbody class="">
+            {% for item in panier %}
+            <tr>
+
+                    <td>{{ number }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.cadeau.designation }}</td>
+                    <td>{{ item.person }}</td>
+            </tr>
+                {% set number = number + 1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

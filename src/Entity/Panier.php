@@ -66,4 +66,5 @@ class Panier
 
         return $this;
     }
+
 }

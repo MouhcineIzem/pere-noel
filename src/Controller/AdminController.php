@@ -6,10 +6,16 @@ use App\Repository\AdresseRepository;
 use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class AdminController
+ * @package App\Controller
+ * @IsGranted("ROLE_ADMIN")
+ */
 class AdminController extends AbstractController
 {
     /**
@@ -50,7 +56,8 @@ class AdminController extends AbstractController
         $users = $userRepository->findAll();
         $villesDupliquées = $adresseRepository->findAll();
         $villes = [];
-        //dd($users);
+
+        $adresses = $adresseRepository->findAll();
 
         foreach ($villesDupliquées as $v) {
             $villes[] = $v->getVille();
@@ -59,7 +66,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/list_adresses.html.twig', [
             'users' => $users,
-            'villes' => array_unique($villes)
+            'villes' => array_unique($villes),
+            'adresses' => $adresses
         ]);
     }
 
@@ -73,9 +81,44 @@ class AdminController extends AbstractController
         $panier = $panierRepository->findAll();
 
 
+        $count = 0;
 
+        /*foreach ($panier as $item) {
+            if($item->getCadeau()->getId() == 1)
+            {
+                $count += 1;
+            }
+        }
+        */
         return $this->render('admin/cadeaux_list.html.twig', [
             'cadeaux' => $cadeaux,
+            'number' => $number,
+            'panier' => $panier
+        ]);
+    }
+
+    /**
+     *@Route("/pereNoel/cadeaux/cadeau/{id}", name="pereNoel_cadeaux_cadeau")
+     */
+    public function cadeauDansPanier($id, PanierRepository $panierRepository, CadeauRepository $cadeauRepository)
+    {
+        $cadeau = $cadeauRepository->findById($id);
+        $panier = $panierRepository->findBy(["cadeau" => $cadeau]);
+
+        dd($panier);
+
+        return $this->render('admin/cadeau_panier.html.twig');
+    }
+
+    /**
+     *@Route("/pereNoel/commandes", name="pereNoel_commandes")
+     */
+    public function commandes(PanierRepository $panierRepository)
+    {
+        $panier = $panierRepository->findAll();
+        $number = 1;
+
+        return $this->render('admin/commandes.html.twig', [
             'number' => $number,
             'panier' => $panier
         ]);

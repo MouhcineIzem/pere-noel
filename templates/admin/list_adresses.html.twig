@@ -8,6 +8,7 @@
             display: flex;
         }
     </style>
+
     <h1 class=" container text-center p-4">Mes Adresses</h1>
     <div class="row">
         <div class="text-center col-md-12 my-3 mx-3 lolo">
@@ -29,7 +30,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Nom</th>
             <th>Rue</th>
             <th>Numero</th>
             <th>CodePostal</th>
@@ -42,7 +43,7 @@
             {% set newAdresses = [] %}
             {% if user.adresses and user.adresses not in newAdresses %}
                 <tr>
-                    <td>{{ user.adresses.id }}</td>
+                    <td>{{ user.firstName }}</td>
                     <td>{{ user.adresses.rue }}</td>
                     <td>{{ user.adresses.numero }}</td>
                     <td>{{ user.adresses.codePostal }}</td>
@@ -58,5 +59,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+    {% if app.user and not is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+    {% endif %}
 {% endblock %}

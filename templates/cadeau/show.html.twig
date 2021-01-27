@@ -20,7 +20,7 @@
                                        {% else %}
                                             {{ asset("assets/img/decoration1.png") }}
                                        {% endif %}
-                " class="{% if app.user.age < cadeau.age %} image-flou {% endif %}"/>
+                " class="{% if app.user.age < cadeau.age  and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}"/>
             </div>
             <div class="card-image-overlay m-auto">
                 <span class="card-detail-badge">{{ cadeau.designation }}</span>
@@ -28,7 +28,7 @@
                 {% if cadeau.user %}
                 <span class="card-detail-badge">{{ cadeau.user.firstName }}</span>
                 {% endif %}
-                <span class="card-detail-badge">< {{ pluriels(cadeau.age, 'an') }}</span>
+                <span class="card-detail-badge">> {{ pluriels(cadeau.age, 'an') }}</span>
             </div>
             <div class="card-body text-center">
                 <div class="ad-title m-auto">
