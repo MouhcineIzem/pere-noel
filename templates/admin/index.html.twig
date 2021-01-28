@@ -4,13 +4,12 @@
 
 {% block body %}
 
-<div class="example-wrapper">
-        <div>
-            <h2><a href="{{ path('pereNoel_adresses') }}">Les Adresses</a></h2>
-            <h2><a href="{{ path('pereNoel_cadeaux') }}">Les Cadeaux</a></h2>
-            <h2><a href="{{ path('pereNoel_commandes') }}">Les commandes</a></h2>
+        <div class="col-md lien">
+            <p><a href="{{ path('pereNoel_adresses') }}">Les Adresses</a></p>
+            <p><a href="{{ path('pereNoel_cadeaux') }}">Les Cadeaux</a></p>
+            <p><a href="{{ path('pereNoel_commandes') }}">Les commandes</a></p>
         </div>
-
+    <div class="example-wrapper full-width">
         <table class="table">
             <thead class="bg-warning">
             <tr>
@@ -46,6 +45,6 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
 
-</div>
 {% endblock %}

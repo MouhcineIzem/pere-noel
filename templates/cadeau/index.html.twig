@@ -3,7 +3,6 @@
 {% block title %}Cadeau index{% endblock %}
 
 {% block body %}
-    {{ dump(app.user.age) }}
     <div class="row">
         <div class="col-md-2">
             <h2 class="my-2">Filtrer</h2>
@@ -37,7 +36,7 @@
                                        {% else %}
                                             {{ asset("assets/img/decoration1.png") }}
                                        {% endif %}
-                            " alt="" class="decoration__img img_hover {% if app.user.age < cadeau.age and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}">
+                            " alt="" class="decoration__img img_hover {% if app.user and app.user.age < cadeau.age and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}">
                             </a>
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <p class="text-warning font-weight-bold">{{ cadeau.prix | number_format(2,',','.') }} €</p>

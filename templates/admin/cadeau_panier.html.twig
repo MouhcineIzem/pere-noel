@@ -4,5 +4,47 @@
 {% block styleshets %}{% endblock %}
 
 {% block body %}
-    <h1>Cadeaux</h1>
+
+    {% set L = panier | length %}
+    {% set H = 0 %}
+    {% set F = 0 %}
+
+    {% for item in panier %}
+        {% if item.person.sexe == "Homme" %}
+            {% set H = H + 1%}
+        {% else %}
+            {% set F = F + 1 %}
+        {% endif %}
+    {% endfor %}
+
+
+    <div class="example-wrapper">
+        <div class="container text-center p-4">
+        </div>
+        <table class="table">
+            <thead class="bg-warning">
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Cadeau-name</th>
+                <th scope="col">N° Fois Com</th>
+                <th scope="col">N° Homme Com</th>
+                <th scope="col">N° Femme Com</th>
+
+            </tr>
+            </thead>
+            <tbody class="">
+                    <tr>
+                        <td scope="row"><img class="img-thumbnail img_panier" src="{{ asset("uploads/cadeaux/"~cadeau.image) }}" alt=""></td>
+                        <td scope="row">{{ cadeau.designation }}</td>
+                        <td scope="row">{{ panier | length }}</td>
+                        <td scope="row">{{ H }} <-> {{ ((H / L) * 100) | number_format(2) }} %</td>
+                        <td scope="row">{{ F }} <-> {{ ((F / L) * 100) | number_format(2) }} %</td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mx-3 my-5">
+        <a href="{{ path('pereNoel_cadeaux') }}" class="btn btn-sm btn-success">Retour</a>
+    </div>
+
 {% endblock %}

@@ -58,6 +58,8 @@ class Cadeau
      */
     private $paniers;
 
+
+
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
@@ -173,6 +175,4 @@ class Cadeau
         return $this;
     }
 
-    
-    
 }

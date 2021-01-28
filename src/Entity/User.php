@@ -59,11 +59,6 @@ class User implements UserInterface
     private $dateDeNaissance;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cadeau::class, mappedBy="user")
-     */
-    private $list_cadeaux;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $profilPicture;
@@ -80,9 +75,11 @@ class User implements UserInterface
 
 
 
+
+
+
     public function __construct()
     {
-        $this->list_cadeaux = new ArrayCollection();
         $this->paniers = new ArrayCollection();
     }
 
@@ -209,35 +206,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Cadeau[]
-     */
-    public function getListCadeaux(): Collection
-    {
-        return $this->list_cadeaux;
-    }
 
-    public function addListCadeaux(Cadeau $listCadeaux): self
-    {
-        if (!$this->list_cadeaux->contains($listCadeaux)) {
-            $this->list_cadeaux[] = $listCadeaux;
-            $listCadeaux->setUser($this);
-        }
 
-        return $this;
-    }
 
-    public function removeListCadeaux(Cadeau $listCadeaux): self
-    {
-        if ($this->list_cadeaux->removeElement($listCadeaux)) {
-            // set the owning side to null (unless already changed)
-            if ($listCadeaux->getUser() === $this) {
-                $listCadeaux->setUser(null);
-            }
-        }
 
-        return $this;
-    }
+
 
     public function __toString()
     {
@@ -305,6 +278,6 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
 
 }

@@ -20,7 +20,7 @@
                                        {% else %}
                                             {{ asset("assets/img/decoration1.png") }}
                                        {% endif %}
-                " class="{% if app.user.age < cadeau.age  and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}"/>
+                " class="{% if app.user and app.user.age < cadeau.age  and not is_granted("ROLE_ADMIN") %} image-flou {% endif %}"/>
             </div>
             <div class="card-image-overlay m-auto">
                 <span class="card-detail-badge">{{ cadeau.designation }}</span>

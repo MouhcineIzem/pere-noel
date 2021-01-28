@@ -102,12 +102,15 @@ class AdminController extends AbstractController
      */
     public function cadeauDansPanier($id, PanierRepository $panierRepository, CadeauRepository $cadeauRepository)
     {
-        $cadeau = $cadeauRepository->findById($id);
+        $cadeau = $cadeauRepository->findOneById($id);
         $panier = $panierRepository->findBy(["cadeau" => $cadeau]);
 
-        dd($panier);
+        //dd($panier);
 
-        return $this->render('admin/cadeau_panier.html.twig');
+        return $this->render('admin/cadeau_panier.html.twig', [
+            'cadeau' => $cadeau,
+            'panier' => $panier
+        ]);
     }
 
     /**

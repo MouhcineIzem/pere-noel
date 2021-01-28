@@ -94,7 +94,9 @@ class PanierController extends AbstractController
             $this->entityManager->remove($panier);
             $this->entityManager->flush();
 
-
+        /*if ($this->getUser()->getRoles() == ["ROLE_ADMIN"]) {
+            return $this->redirectToRoute('panier_admin');
+        }*/
         return $this->redirectToRoute('panier_userConnecte');
 
     }
