@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Form\AgeCategoryType;
 use App\Repository\AdresseRepository;
 use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -104,12 +107,39 @@ class AdminController extends AbstractController
     {
         $cadeau = $cadeauRepository->findOneById($id);
         $panier = $panierRepository->findBy(["cadeau" => $cadeau]);
+        $homme = 0;
+        $femme = 0;
 
-        //dd($panier);
+        foreach ($panier as $item) {
+            if($item->getPerson()->getSexe() == "Homme") {
+                $homme ++;
+            } else {
+                $femme ++;
+            }
+        }
+        $pieChart = new PieChart();
+        $pieChart->getData()->setArrayToDataTable(
+            [['Task', 'Hours per Day'],
+                ['homme',     $homme],
+                ['femme',      $femme],
+            ]
+        );
+        $pieChart->getOptions()->setTitle("Porcentage (h|f) qui ont commendés ".$cadeau->getDesignation());
+        $pieChart->getOptions()->setHeight(500);
+        $pieChart->getOptions()->setWidth(900);
+        $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
+
+
+
 
         return $this->render('admin/cadeau_panier.html.twig', [
             'cadeau' => $cadeau,
-            'panier' => $panier
+            'panier' => $panier,
+            'piechart' => $pieChart
         ]);
     }
 
@@ -124,6 +154,44 @@ class AdminController extends AbstractController
         return $this->render('admin/commandes.html.twig', [
             'number' => $number,
             'panier' => $panier
+        ]);
+    }
+
+    /**
+     *@Route("/pereNoel/categories", name="pereNoel_categories", methods={"GET", "POST"})
+     */
+    public function categories(PanierRepository $panierRepository, Request $request)
+    {
+        $panier = $panierRepository->findAll();
+        $number = 1;
+
+        $form = $this->createForm(AgeCategoryType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $age = $form->getData();
+        }
+
+
+        $cadeaux = [];
+        foreach ($panier as $item) {
+            if(!empty($age) and $age > $item->getCadeau()->getAge()) {
+                array_push($cadeaux, $item->getCadeau());
+            }
+            else {
+                array_push($cadeaux, $item->getCadeau());
+            }
+        }
+
+        //dd($cadeaux);
+
+
+        return $this->render('admin/categories.html.twig', [
+            'number' => $number,
+            'panier' => $panier,
+            'cadeaux' => $cadeaux,
+            'form' => $form->createView()
         ]);
     }
 }

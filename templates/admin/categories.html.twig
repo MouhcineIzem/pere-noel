@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List des categories{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+        <div>
+            {{ form(form) }}
+        </div>
+        <div class="container text-center p-4">
+            <h3>Les categories  de tous les utilisateures : </h3>
+        </div>
+        <table class="table">
+            <thead class="bg-warning">
+            <tr>
+                <th scope="col">N° cadeaux</th>
+                <th scope="col">Age min</th>
+                <th scope="col">Nom categorie</th>
+            </tr>
+            </thead>
+            <tbody class="">
+            {% for cadeau in cadeaux  %}
+            <tr>
+                    <td>{{ cadeau.designation }}</td>
+                    <td>{{ cadeau.age }}</td>
+                    <td>{{ cadeau.categorie }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
