@@ -3,11 +3,16 @@
 {% block title %}List des commades{% endblock %}
 
 {% block body %}
+<div class="d-flex bd-highlight mb-3">
+
+    {% include 'admin/sidebar.html.twig' %}
 
     <div class="example-wrapper">
+
         <div class="container text-center p-4">
-            <h3>Les commandes de tous les utilisateures : </h3>
+            <h3>Les categories  de tous les utilisateures : </h3>
         </div>
+
         <table class="table">
             <thead class="bg-warning">
             <tr>
@@ -20,7 +25,6 @@
             <tbody class="">
             {% for item in panier %}
             <tr>
-
                     <td>{{ number }}</td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.cadeau.designation }}</td>
@@ -31,4 +35,6 @@
             </tbody>
         </table>
     </div>
+
+</div>
 {% endblock %}

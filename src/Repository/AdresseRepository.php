@@ -36,15 +36,39 @@ class AdresseRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Adresse
+    public function findUsersAddresses()
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+        $query = $this->createQueryBuilder('a')
+            ->innerJoin('a.users', 'users')
+
             ->getQuery()
-            ->getOneOrNullResult()
         ;
+
+        //dd($query->getSQL(), $query->getResult());
+        return $query->getResult();
     }
-    */
+
+    public function findUniqueAddresses()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('distinct a.ville')
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+        //dd($query->getSQL(), $query->getResult());
+    }
+
+    public function findAddressByCity(string $city)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->innerJoin('a.users', 'users')
+            ->where('a.ville = :city')
+            ->setParameter('city', $city)
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
+
 }

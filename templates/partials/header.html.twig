@@ -1,6 +1,9 @@
-
 <header>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-{% if is_granted("ROLE_ADMIN") %}dark{% else %}danger{% endif %}">
+	<nav class="navbar navbar-expand-lg navbar-dark
+	bg-{% if is_granted("ROLE_ADMIN") %}dark
+	{% elseif is_granted("ROLE_GESTION") %}success
+	{% elseif is_granted("ROLE_SECRETARIAT") %}purple
+	{% else %}danger{% endif %}">
 		<div class="collapse navbar-collapse" id="collapsibleNavId">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active">
@@ -16,7 +19,7 @@
 				<li class="nav-item active">
 					<a class="nav-link" href="{{path('cadeau_index')}}">Catalogue</a>
 				</li>
-				{% if is_granted("ROLE_ADMIN") %}
+				{% if is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT") %}
 				<li class="nav-item active">
 					<a class="nav-link" href="{{path('admin_pereNoel')}}">Dashboard</a>
 				</li>
@@ -36,12 +39,16 @@
 					" alt="{{ app.user.firstName }}"></a>
 					</div>
 					<div class="dropdown">
-						<li class="bg-{% if is_granted("ROLE_ADMIN") %}dark{% else %}danger{% endif %} list-pointor btn-outline-dark dropdown-toggle mx-3 text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<li class="bg-{% if is_granted("ROLE_ADMIN") %}dark
+								{% elseif is_granted("ROLE_GESTION") %}success
+								{% elseif is_granted("ROLE_SECRETARIAT") %}purple
+								{% else %}danger{% endif %}
+								list-pointor btn-outline-dark dropdown-toggle mx-3 text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{{ app.user.firstName}}
 						</li>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								<a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a>
-							{% if not is_granted("ROLE_ADMIN")  %}
+							{% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETARIAT") or is_granted("ROLE_GESTION"))  %}
 								<a class="dropdown-item" href="{{ path('panier_userConnecte') }}">Ma liste</a>
 							{% endif %}
 							{% if app.user.adresses %}

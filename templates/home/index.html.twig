@@ -7,9 +7,42 @@
 {% endblock %}
 {% block body %}
 
+    {% if app.user and is_granted("ROLE_SECRETARIAT") %}
     <main class="l-main">
         <section class="home" id="home">
                <div class="home__container bd-container bd-grid">
+                    <div class="home__img">
+                        <img src="{{ asset("assets/img/send.png") }}" />
+                    </div>
+
+                    <div class="home__data">
+                        <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
+                        <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
+                        <a href="{{ path('app_list') }}" class="btn bg-purple btn-lg">Get Started</a>
+                    </div>
+                </div>
+        </section>
+    </main>
+    {% elseif app.user and  is_granted("ROLE_GESTION") %}
+        <main class="l-main">
+            <section class="home" id="home">
+                <div class="home__container bd-container bd-grid">
+                    <div class="home__img">
+                        <img src="{{ asset("assets/img/shared.png") }}" />
+                    </div>
+
+                    <div class="home__data">
+                        <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
+                        <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
+                        <a href="{{ path('app_list') }}" class="btn btn-success btn-lg">Get Started</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    {% elseif app.user and  is_granted("ROLE_ADMIN") %}
+        <main class="l-main">
+            <section class="home" id="home">
+                <div class="home__container bd-container bd-grid">
                     <div class="home__img">
                         <img src="{{ asset("assets/img/home.png") }}" />
                     </div>
@@ -17,10 +50,27 @@
                     <div class="home__data">
                         <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
                         <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
-                        <a href="{{ path('app_list') }}" class="button">Get Started</a>
+                        <a href="{{ path('app_list') }}" class="button btn-dark btn-lg">Get Started</a>
                     </div>
                 </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    {% else %}
+        <main class="l-main">
+            <section class="home" id="home">
+                <div class="home__container bd-container bd-grid">
+                    <div class="home__img">
+                        <img src="{{ asset("assets/img/home.png") }}" />
+                    </div>
+
+                    <div class="home__data">
+                        <h1 class="home__title">Creez vos listes  de cadeaux personnalisée pour Noël</h1>
+                        <p class="home__description">En ces fêtes de fin d'année, creez vos listes  et partagez le bonheur de Noël..</p>
+                        <a href="{{ path('app_list') }}" class="button btn-danger btn-lg">Get Started</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    {% endif %}
     
 {% endblock %}

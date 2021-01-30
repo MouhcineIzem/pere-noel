@@ -3,63 +3,55 @@
 {% block title %}Adresse index{% endblock %}
 
 {% block body %}
-    <style>
-        .lolo {
-            display: flex;
-        }
-    </style>
 
-    <h1 class=" container text-center p-4">Mes Adresses</h1>
-    <div class="row">
-        <div class="text-center col-md-12 my-3 mx-3 lolo">
-            <h4 > {{ villes | length }} Villes</h4>
-            {% set newVilles = [] %}
-            {% for user in users %}
-                {% if user.adresses and user.adresses.ville not in newVilles %}
-                    <div class="mx-5">
-                        <input type="checkbox"> {{ user.adresses.ville }}
-                    </div>
-                    {% set  newVilles = newVilles|merge([user.adresses.ville])%}
-                {% endif %}
-            {% endfor %}
+    <div class="d-flex bd-highlight mb-3">
 
-            <a href="" class="btn btn-success ">Filtrer</a>
-        </div>
-    </div>
+        {% include 'admin/sidebar.html.twig' %}
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Rue</th>
-            <th>Numero</th>
-            <th>CodePostal</th>
-            <th>Ville</th>
-            <th>Show</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            {% set newAdresses = [] %}
-            {% if user.adresses and user.adresses not in newAdresses %}
+        <div class="example-wrapper">
+            <h1 class=" container text-center p-4">Les Adresses des Utilisateurs</h1>
+                    {{ form(form) }}
+
+            <table class="table">
+                <thead class="bg-warning">
                 <tr>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.adresses.rue }}</td>
-                    <td>{{ user.adresses.numero }}</td>
-                    <td>{{ user.adresses.codePostal }}</td>
-                    <td>{{ user.adresses.ville }}</td>
-                    <td>
-                        <a href="{{ path('adresse_show', {'id': user.adresses.id}) }}"><i class="fas fa-eye"></i></a>
-                    </td>
+                    <th>Rue</th>
+                    <th>Numero</th>
+                    <th>CodePostal</th>
+                    <th>Ville</th>
+                    <th>Show</th>
                 </tr>
-                {% set  newAdresses = newAdresses|merge([user.adresses])%}
-            {% endif %}
-        {% endfor %}
+                </thead>
+                <tbody>
+                {% for address in addresses %}
+                    <tr>
+                        <td>{{ address.rue }}</td>
+                        <td>{{ address.numero }}</td>
+                        <td>{{ address.codePostal }}</td>
+                        <td>{{ address.ville }}</td>
+                        <td>
+                            <a href="{{ path('adresse_show', {'id': address.id}) }}"><i class="fas fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
 
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
 
-    {% if app.user and not is_granted("ROLE_ADMIN") %}
+    {% if app.user and not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT"))  %}
         <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
     {% endif %}
+
+    </div>
 {% endblock %}
+{#            <h4 > {{ villes | length }} Villes</h4>#}
+                {#            {% set newVilles = [] %}#}
+                {#            {% for user in users %}#}
+                {#                {% if user.adresses and user.adresses.ville not in newVilles %}#}
+                {#                    <div class="mx-5">#}
+                {#                        <input type="checkbox"> {{ user.adresses.ville }}#}
+                {#                    </div>#}
+                {#                    {% set  newVilles = newVilles|merge([user.adresses.ville])%}#}
+                {#                {% endif %}#}
+                {#            {% endfor %}#}

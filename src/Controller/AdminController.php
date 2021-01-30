@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Model\City;
 use App\Form\AgeCategoryType;
+use App\Form\CityType;
+use App\Model\CityCollection;
 use App\Repository\AdresseRepository;
 use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
@@ -10,6 +13,8 @@ use App\Repository\UserRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class AdminController
  * @package App\Controller
- * @IsGranted("ROLE_ADMIN")
  */
 class AdminController extends AbstractController
 {
@@ -33,7 +37,7 @@ class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', [
             'users' => $users,
             "number" => $number,
-            'panier' => $panier
+            'panier' => $panier,
         ]);
     }
 
@@ -54,23 +58,38 @@ class AdminController extends AbstractController
     /**
      *@Route("/pereNoel/adresses", name="pereNoel_adresses")
      */
-    public function adressesUsers(UserRepository $userRepository, AdresseRepository  $adresseRepository)
+    public function adressesUsers(Request $request, UserRepository $userRepository, AdresseRepository  $adresseRepository)
     {
-        $users = $userRepository->findAll();
-        $villesDupliquées = $adresseRepository->findAll();
-        $villes = [];
+        $allAddresses = $adresseRepository->findUsersAddresses();
+        $cities = $adresseRepository->findUniqueAddresses();
+        $citiesArray = [];
 
-        $adresses = $adresseRepository->findAll();
-
-        foreach ($villesDupliquées as $v) {
-            $villes[] = $v->getVille();
+        foreach ($cities as $city) {
+            if (!in_array($city['ville'], $citiesArray)) {
+                $citiesArray[] = $city['ville'];
+            }
+        }
+        $form = $this->createFormBuilder($citiesArray)
+            ->add('city', ChoiceType::class, [
+                'choices' => array_combine(array_values($citiesArray), array_values($citiesArray))
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Filtrer', 'attr' => ['class' => 'btn btn-success']])
+            ->add('reset', SubmitType::class, ['label' => 'Réinitialiser', 'attr' => ['class' => 'btn btn-dark']])
+        ->getForm();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('submit')->isClicked()) {
+                $allAddresses = $adresseRepository->findAddressByCity($form->get('city')->getData());
+            }
         }
 
 
+
         return $this->render('admin/list_adresses.html.twig', [
-            'users' => $users,
-            'villes' => array_unique($villes),
-            'adresses' => $adresses
+            'addresses' => $allAddresses,
+//            'cities' => array_unique($villes),
+//            'adresses' => $adresses,
+            'form' => $form->createView()
         ]);
     }
 
@@ -83,16 +102,6 @@ class AdminController extends AbstractController
         $cadeaux = $cadeauRepository->findAll();
         $panier = $panierRepository->findAll();
 
-
-        $count = 0;
-
-        /*foreach ($panier as $item) {
-            if($item->getCadeau()->getId() == 1)
-            {
-                $count += 1;
-            }
-        }
-        */
         return $this->render('admin/cadeaux_list.html.twig', [
             'cadeaux' => $cadeaux,
             'number' => $number,
@@ -153,7 +162,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/commandes.html.twig', [
             'number' => $number,
-            'panier' => $panier
+            'panier' => $panier,
         ]);
     }
 
@@ -169,23 +178,20 @@ class AdminController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $age = $form->getData();
-        }
-
-
         $cadeaux = [];
         foreach ($panier as $item) {
-            if(!empty($age) and $age > $item->getCadeau()->getAge()) {
                 array_push($cadeaux, $item->getCadeau());
-            }
-            else {
-                array_push($cadeaux, $item->getCadeau());
-            }
         }
 
-        //dd($cadeaux);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $cadeaux = [];
+            foreach ($panier as $item) {
+                if($item->getCadeau()->getAge() <= $form->get('age')->getData()) {
+                    array_push($cadeaux, $item->getCadeau());
+                }
+            }
 
+        }
 
         return $this->render('admin/categories.html.twig', [
             'number' => $number,

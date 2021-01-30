@@ -29,7 +29,6 @@ class PanierController extends AbstractController
 
     /**
      *@Route("/panier", name="panier_userConnecte")
-     * @IsGranted("ROLE_USER")
      */
     public function index(PanierRepository $panierRepository)
     {
@@ -42,6 +41,8 @@ class PanierController extends AbstractController
             'panier' => $panier
         ]);
     }
+
+
     /**
      *@Route("/panier/{id}", name="panier_admin")
      */
@@ -90,14 +91,21 @@ class PanierController extends AbstractController
 
         //dd($panier);
 
+        //$user = $userRepository->findById($id);
+        //dd($user);
+        //$panier = $panierRepository->findBy(["person" => $user]);
 
             $this->entityManager->remove($panier);
             $this->entityManager->flush();
 
-        /*if ($this->getUser()->getRoles() == ["ROLE_ADMIN"]) {
-            return $this->redirectToRoute('panier_admin');
-        }*/
-        return $this->redirectToRoute('panier_userConnecte');
+        if ($this->getUser()->getRoles() == ["ROLE_USER"]) {
+            return $this->redirectToRoute('panier_userConnecte');
+        }
+
+        return $this->redirectToRoute('panier_admin', [
+            'id' => $panier->getPerson()->getId()
+        ]);
+
 
     }
 

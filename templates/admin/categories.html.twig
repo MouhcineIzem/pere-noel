@@ -4,16 +4,23 @@
 
 {% block body %}
 
+<div class="d-flex bd-highlight mb-3">
+    {% include 'admin/sidebar.html.twig' %}
+
     <div class="example-wrapper">
-        <div>
-            {{ form(form) }}
-        </div>
+
         <div class="container text-center p-4">
             <h3>Les categories  de tous les utilisateures : </h3>
         </div>
+
+        <div>
+            {{ form(form) }}
+        </div>
+
         <table class="table">
             <thead class="bg-warning">
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">N° cadeaux</th>
                 <th scope="col">Age min</th>
                 <th scope="col">Nom categorie</th>
@@ -22,12 +29,15 @@
             <tbody class="">
             {% for cadeau in cadeaux  %}
             <tr>
-                    <td>{{ cadeau.designation }}</td>
-                    <td>{{ cadeau.age }}</td>
-                    <td>{{ cadeau.categorie }}</td>
+                <td>{{ number }}</td>
+                <td>{{ cadeau.designation }}</td>
+                <td>{{ cadeau.age }}</td>
+                <td>{{ cadeau.categorie }}</td>
             </tr>
+                {% set number = number + 1 %}
             {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
 {% endblock %}

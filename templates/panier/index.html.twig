@@ -30,7 +30,7 @@
                                     </td>
                                     <td>{{ item.cadeau.designation }}</td>
                                     <td>{{ pluriels(item.cadeau.age, 'an') }}</td>
-                                    <td>{{ item.cadeau.prix }} €</td>
+                                    <td>{{ item.cadeau.prix | number_format(2,',','.')}} €</td>
                                     <td>{{ item.person }}</td>
                                     <td><a href="{{ path('panier_delete_from_list', {'id' : item.id}) }}"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></td>
                                 </tr>
@@ -47,7 +47,7 @@
                     </div>
                     {% else %}
                     <div class="text-center my-5">
-                        <h3 class="text-warning">Pas de Liste de cadeaux pour cette Personne</h3>
+                        <h3 class="text-warning">Pas de Liste de cadeaux</h3>
                     </div>
                 {% endif %}
 

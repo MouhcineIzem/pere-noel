@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Classe\Search;
+use App\Model\Search;
 use App\Entity\Categorie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

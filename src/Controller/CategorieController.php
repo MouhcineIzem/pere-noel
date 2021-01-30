@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Classe\Pourcentage;
+use App\Model\Pourcentage;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Form\PourcentageType;

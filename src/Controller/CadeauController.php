@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Classe\Search;
+use App\Model\Search;
 use App\Entity\Cadeau;
 use App\Form\CadeauType;
 use App\Form\SearchType;

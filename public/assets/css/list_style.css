@@ -61,3 +61,14 @@
     filter: blur(4px);
 }
 
+.bg-purple {
+    background-color: mediumpurple;
+}
+
+.longeur {
+    max-height: 1000px;
+}
+.longeur .mod-lolo {
+    padding: 50px;
+    margin-top: 20px;
+}
