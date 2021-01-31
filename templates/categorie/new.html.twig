@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Categorie{% endblock %}
+{% block title %}Nouvelle Categorie{% endblock %}
 
 {% block body %}
     {% for message in app.flashes('success') %}
@@ -8,9 +8,9 @@
             {{ message }}
         </div>
     {% endfor %}
-    <h1>Create new Categorie</h1>
+    <h1>Ajouter une categorie</h1>
 
     {{ include('categorie/_form.html.twig') }}
 
-    <a href="{{ path('categorie_index') }}" class="btn btn-info mx-3">back to list</a>
+    <a href="{{ path('categorie_index') }}" class="btn btn-info mx-3">Retour</a>
 {% endblock %}

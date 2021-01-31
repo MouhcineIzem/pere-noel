@@ -17,7 +17,7 @@
                     <th>age</th>
                     <th>genre</th>
                     <th>Adresse</th>
-                    <th scope="col">Show</th>
+                    <th scope="col">Voir</th>
                     {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETARIAT") %}
                         <th>Supprimer</th>
                     {% endif %}
@@ -27,7 +27,12 @@
                 {% for user in users %}
                     <tr>
                         <th scope="row">{{ number }}</th>
-                        <td>{{ user }}</td>
+                        {% if user.roles == "ROLE_ADMIN" %}
+                            <td>{{ user }} ADMIN</td>
+                        {% else %}
+                            <td>{{ user }}</td>
+                        {% endif %}
+
                         <td>{{ user.age }}</td>
                         <td>{{ user.sexe }}</td>
                         <td>
@@ -46,8 +51,7 @@
                         {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SECRETARIAT") %}
                             <td>
                                 <a href="{{ path('user_delete', {'id': user.id})}}">
-                                    <button class="btn btn-danger btn-xs text-right"><i class="fas fa-trash"></i>
-                                    </button>
+                                    {{ include('registration/__delete__form.html.twig') }}
                                 </a>
                             </td>
                         {% endif %}

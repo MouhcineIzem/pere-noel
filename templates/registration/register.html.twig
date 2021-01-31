@@ -37,7 +37,7 @@
                     <li class="list-group-item">
                         <a href="{{ path('profile', {'id': app.user.id}) }}" class="mx-3">Mon  Profil</a>
                     </li>
-                    {% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT")) %}
+                    {% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT")) and not app.user.adresses%}
                     <li class="list-group-item border-bottom">
                         <a href="{{ path('adresse_new') }}">Ajouter une adresse</a>
                     </li>

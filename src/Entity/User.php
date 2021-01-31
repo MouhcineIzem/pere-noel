@@ -69,7 +69,7 @@ class User implements UserInterface
     private $adresses;
 
     /**
-     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="person")
+     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="person", cascade={"remove"})
      */
     private $paniers;
 

@@ -58,7 +58,10 @@ class PanierController extends AbstractController
      */
     public function indexPanier(PanierRepository $panierRepository, $id, UserRepository $userRepository)
     {
-        $panier = $panierRepository->find($id);
+        $user = $userRepository->find($id);
+
+
+        $panier = $panierRepository->findUserPanier($user);
 
        // dd($panier);
         return $this->render('panier/index.html.twig', [
@@ -104,6 +107,7 @@ class PanierController extends AbstractController
      */
     public function delete($id,  PanierRepository $panierRepository, CadeauRepository $cadeauRepository)
     {
+
         $panier = $panierRepository->findUserPanier($this->getUser());
 
         $cadeau = $cadeauRepository->find($id);

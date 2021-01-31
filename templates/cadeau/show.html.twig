@@ -25,9 +25,6 @@
             <div class="card-image-overlay m-auto">
                 <span class="card-detail-badge">{{ cadeau.designation }}</span>
                 <span class="card-detail-badge">{{ cadeau.prix | number_format(2,',','.')}} €</span>
-                {% if cadeau.user %}
-                <span class="card-detail-badge">{{ cadeau.user.firstName }}</span>
-                {% endif %}
                 <span class="card-detail-badge">< {{ pluriels(cadeau.age, 'an') }}</span>
             </div>
             <div class="card-body text-center">

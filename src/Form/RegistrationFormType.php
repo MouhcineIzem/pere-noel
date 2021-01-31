@@ -21,25 +21,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username',TextType::class, [
-                'label' => 'username'
-            ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
+
 //            ->add('plainPassword', PasswordType::class, [
 //                // instead of being set onto the object directly,
 //                // this is read and encoded in the controller
@@ -57,13 +39,13 @@ class RegistrationFormType extends AbstractType
 //                ],
 //            ])
             ->add('firstName', TextType::class, [
-                'label' => 'firstName'
+                'label' => 'Prenom'
             ])
             ->add('lastName',TextType::class, [
-                'label' => 'lastName'
+                'label' => 'Nom'
             ])
             ->add('sexe',ChoiceType::class, [
-                'label' => 'genre',
+                'label' => 'Genre',
                 'choices' => [
                     "Choisir entre homme | femme" => [
                         'Homme' => "Homme",
@@ -71,8 +53,23 @@ class RegistrationFormType extends AbstractType
                     ]
                 ]
             ])
+            ->add('plainPassword', PasswordType::class, [
+                'label' => "Mot de passe",
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
             ->add('profilPicture', FileType::class, [
-                'label' => 'l\'image du profile ',
+                'label' => 'L\'image de profile ',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -82,7 +79,7 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('dateDeNaissance',DateType::class, [
-                'label' => 'date de naissance',
+                'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ])

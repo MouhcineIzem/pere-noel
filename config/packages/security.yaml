@@ -56,5 +56,6 @@ security:
 
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/pereNoel, roles: ROLE_ADMIN}
+    - { path: ^/pereNoel, roles: [ROLE_ADMIN, ROLE_GESTION, ROLE_SECRETARIAT] }
     - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/panier/new/, roles: ROLE_USER }

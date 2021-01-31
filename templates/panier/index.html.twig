@@ -30,7 +30,9 @@
                             <th>Designation</th>
                             <th>Age</th>
                             <th>Prix</th>
-                            <th>Delete</th>
+                            {% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_ADMIN") or is_granted("ROLE_ADMIN")) %}
+                                <th>Delete</th>
+                            {% endif %}
                             </thead>
                             <tbody>
                             {% set total = null %}
@@ -43,7 +45,9 @@
                                     <td>{{ cadeau.designation }}</td>
                                     <td>{{ pluriels(cadeau.age, 'an') }}</td>
                                     <td>{{ cadeau.prix | number_format(2,',','.')}} €</td>
+                                    {% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_ADMIN") or is_granted("ROLE_ADMIN")) %}
                                     <td><a href="{{ path('panier_delete_from_list', {'id' : cadeau.id}) }}"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></td>
+                                    {% endif %}
                                 </tr>
                                 {%  set total = cadeau.prix + total  %}
                             {% endfor %}

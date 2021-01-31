@@ -53,6 +53,7 @@ class RegistrationController extends AbstractController
             }
 
 
+            $user->setUsername($user->getLastName().'_'.$user->getFirstName());
 
             $user->setPassword(
                 $passwordEncoder->encodePassword(

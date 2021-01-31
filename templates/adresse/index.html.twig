@@ -17,7 +17,6 @@
             </tr>
         </thead>
         <tbody>
-        {{ dump(app.user.adresses) }}
         {% if app.user.adresses %}
             <tr>
                 <td>{{ app.user.adresses.id }}</td>
@@ -26,17 +25,18 @@
                 <td>{{ app.user.adresses.codePostal }}</td>
                 <td>{{ app.user.adresses.ville }}</td>
                 <td>
-                    <a href="{{ path('adresse_show', {'id': app.user.adresses.id}) }}">show</a>
-                    <a href="{{ path('adresse_edit', {'id': app.user.adresses.id}) }}">edit</a>
+                    <a href="{{ path('adresse_show', {'id': app.user.adresses.id}) }}">Voir</a>
+                    <a href="{{ path('adresse_edit', {'id': app.user.adresses.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas d'adresse</td>
             </tr>
         {% endif %}
         </tbody>
     </table>
-
-    <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+    {% if not app.user.adresses %}
+        <a href="{{ path('adresse_new') }}" class="btn btn-info mx-2 my-2">Create new</a>
+    {% endif %}
 {% endblock %}

@@ -37,7 +37,7 @@
                     <td class="text-center text-danger"><i class="fas fa-check-circle"></i></td>
                 {% endif %}
                     <td>
-                        <a class="btn btn-info my-2" href="{{ path('panier_admin', {'id': item.id}) }}">Détail</a>
+                        <a class="btn btn-info my-2" href="{{ path('panier_admin', {'id': item.person.id}) }}">Détail</a>
                     </td>
             </tr>
             {% endfor %}

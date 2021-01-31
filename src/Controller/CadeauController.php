@@ -55,7 +55,6 @@ class CadeauController extends AbstractController
 
     /**
      * @Route("/new", name="cadeau_new", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -103,7 +102,11 @@ class CadeauController extends AbstractController
      */
     public function show(Cadeau $cadeau, PanierRepository  $panierRepository): Response
     {
-        $panier = $panierRepository->findUserPanier($this->getUser());
+        $panier = null;
+
+        if($this->getUser()) {
+            $panier = $panierRepository->findUserPanier($this->getUser());
+        }
 
         return $this->render('cadeau/show.html.twig', [
             'cadeau' => $cadeau,
