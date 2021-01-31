@@ -167,6 +167,7 @@ class AdminController extends AbstractController
     {
         $panier = $panierRepository->findAll();
         $number = 1;
+        //dd($panier);
 
         return $this->render('admin/commandes.html.twig', [
             'number' => $number,
@@ -210,10 +211,25 @@ class AdminController extends AbstractController
     }
 
     /**
-     *@Route("/pereNoel/validerCommande", name="valider_commande", methods={"GET", "POST"})
+     *@Route("/pereNoel/validerCommande/{id}", name="valider_commande", methods={"GET", "POST"})
      */
-    public function validerCommande()
+    public function validerCommande(PanierRepository $panierRepository ,$id, UserRepository $userRepository)
     {
-        dd("Commande Validée");
+        $user = $userRepository->findById($id);
+        //dd($user);
+        $panier = $panierRepository->findBy(["person" => $user]);
+
+        foreach ($panier as $item) {
+            $item->setIsValide(true);
+            $this->getDoctrine()->getManager()->persist($item);
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('pereNoel_commandes');
+        //dd($panier);
     }
+
+
+
 }

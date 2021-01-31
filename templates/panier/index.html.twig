@@ -65,7 +65,7 @@
                                         {{ path('cadeau_index') }}
                                     {% endif %}" class="btn btn-info text-left">Retour</a>
                         {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('valider_commande') }}" class="btn btn-success text-right">Valider la commande</a>
+                            <a href="{{ path('valider_commande', {"id" : panier[0].person.id}) }}" class="btn btn-success text-right">Valider la commande</a>
                         {% endif %}
                     </div>
 

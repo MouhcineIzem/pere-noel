@@ -48,6 +48,7 @@ class PanierController extends AbstractController
      */
     public function indexPanier(PanierRepository $panierRepository, $id, UserRepository $userRepository)
     {
+
         $user = $userRepository->findById($id);
         //dd($user);
         $panier = $panierRepository->findBy(["person" => $user]);
