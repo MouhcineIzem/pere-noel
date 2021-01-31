@@ -11,23 +11,23 @@
             </p>
         {% elseif is_granted("ROLE_GESTION")  %}
             <p class="p-4 text-white text-decoration-none border-bottom">
-                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_cadeaux') }}">Cadeaux</a>
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_stats') }}">Statistiques</a>
             </p>
             <p class="p-4 text-white text-decoration-none border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_categories') }}">Categories</a>
             </p>
         {% else %}
+            <p class="p-4 text-white text-decoration-none border-bottom">
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_commandes') }}">Commandes</a>
+            </p>
             <p class="p-4 border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_adresses') }}">Adresses</a>
-            </p>
-            <p class="p-4 text-white text-decoration-none border-bottom">
-                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_cadeaux') }}">Cadeaux</a>
             </p>
             <p class="p-4 text-white text-decoration-none border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_categories') }}">Categories</a>
             </p>
             <p class="p-4 text-white text-decoration-none border-bottom">
-                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_commandes') }}">Commandes</a>
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_stats') }}">Statistiques</a>
             </p>
         {% endif %}
         {% if app.request.pathInfo('/pereNoel') %}

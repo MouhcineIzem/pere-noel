@@ -44,7 +44,7 @@ class Cadeau
     private $categorie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="list_cadeaux")
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $user;
 
@@ -54,11 +54,9 @@ class Cadeau
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="cadeau")
+     * @ORM\ManyToMany(targetEntity=Panier::class, mappedBy="cadeaux")
      */
     private $paniers;
-
-
 
     public function __construct()
     {
@@ -155,7 +153,7 @@ class Cadeau
     {
         if (!$this->paniers->contains($panier)) {
             $this->paniers[] = $panier;
-            $panier->setCadeau($this);
+            $panier->addCadeaux($this);
         }
 
         return $this;
@@ -164,10 +162,7 @@ class Cadeau
     public function removePanier(Panier $panier): self
     {
         if ($this->paniers->removeElement($panier)) {
-            // set the owning side to null (unless already changed)
-            if ($panier->getCadeau() === $this) {
-                $panier->setCadeau(null);
-            }
+            $panier->removeCadeaux($this);
         }
 
         return $this;

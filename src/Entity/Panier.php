@@ -9,9 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PanierRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Panier
 {
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_VALIDATED = 'validated';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -19,45 +23,39 @@ class Panier
      */
     private $id;
 
-
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Cadeau::class, inversedBy="paniers")
-     */
-    private $cadeau;
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="paniers")
      */
     private $person;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=20)
      */
-    private $isValide;
+    private $status = self::STATUS_IN_PROGRESS;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $validatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Cadeau::class, inversedBy="paniers")
+     */
+    private $cadeaux;
+
+    public function __construct()
+    {
+        $this->cadeaux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-
-
-
-
-    public function getCadeau(): ?Cadeau
-    {
-        return $this->cadeau;
-    }
-
-    public function setCadeau(?Cadeau $cadeau): self
-    {
-        $this->cadeau = $cadeau;
-
-        return $this;
     }
 
     public function getPerson(): ?User
@@ -72,25 +70,76 @@ class Panier
         return $this;
     }
 
-    public function getIsValide(): ?bool
+    public function getStatus(): ?string
     {
-        return $this->isValide;
+        return $this->status;
     }
 
-    public function setIsValide(?bool $isValide): self
+    public function setStatus(string $status): self
     {
-        $this->isValide = $isValide;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function ReturnIsValide()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        if($this->isValide){
-            return "OUI";
-        }else {
-            return "NON";
-        }
+        return $this->createdAt;
     }
 
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
+
+    public function getValidatedAt(): ?\DateTimeInterface
+    {
+        return $this->validatedAt;
+    }
+
+    public function setValidatedAt(?\DateTimeInterface $validatedAt): self
+    {
+        $this->validatedAt = $validatedAt;
+
+        return $this;
+    }
+
+    public function isValidated()
+    {
+        return $this->status === self::STATUS_VALIDATED;
+    }
+
+    /**
+     * @return Collection|Cadeau[]
+     */
+    public function getCadeaux(): Collection
+    {
+        return $this->cadeaux;
+    }
+
+    public function addCadeaux(Cadeau $cadeaux): self
+    {
+        if (!$this->cadeaux->contains($cadeaux)) {
+            $this->cadeaux[] = $cadeaux;
+        }
+
+        return $this;
+    }
+
+    public function removeCadeaux(Cadeau $cadeaux): self
+    {
+        $this->cadeaux->removeElement($cadeaux);
+
+        return $this;
+    }
 }

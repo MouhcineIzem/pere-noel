@@ -10,15 +10,7 @@
             <h6><a href="{{ path('categorie_index') }}" class="text-dark text-decoration-none ml-2">
                     <i class="fas fa-list"></i> categories</a>
             </h6>
-                <div class="border mx-2">
-                    {% for categorie in categories  %}
-                        <div class="mx-2 my-3 border-bottom">
-                            <p>
-                                <a class="text-decoration-none text-primary cat-link" href="{{ path('categorie_show', {'id': categorie.id}) }}">{{ categorie.name }}</a>
-                            </p>
-                        </div>
-                    {% endfor %}
-                </div>
+
             {% if app.user and is_granted("ROLE_ADMIN") %}
                 <a href="{{ path('cadeau_new') }}" class="btn btn-info mx-3 my-3">Ajouter un cadeau</a>
             {% endif %}
@@ -41,18 +33,20 @@
                             <h3 class="decoration__title">{{ cadeau.designation }}</h3>
                             <p class="text-warning font-weight-bold">{{ cadeau.prix | number_format(2,',','.') }} €</p>
                             <a href="{{ path('cadeau_show', {'id': cadeau.id}) }}" class="button button-link mx-2"><i class="fas fa-angle-double-right"></i></a>
-                            {% if app.user and app.user.age > cadeau.age and not is_granted("ROLE_ADMIN") %}
-                                {% for item in panier %}
-                                    {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
+                           {% if panier and app.user.age > cadeau.age and not is_granted("ROLE_ADMIN") %}
+                                {% for item in panier.cadeaux %}
+                                    {% if item.id == cadeau.id%}
                                         {% set ajoute = true %}
                                     {% endif %}
                                 {% endfor %}
                                 {% if ajoute %}
-                                    <a class=" button button-link text-dark"><i class="far fa-thumbs-up"></i></a>
+                                    <a class=" button button-link text-dark text-disabled"><i class="fa fa-plus"></i></a>
                                 {% else %}
                                     <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success"><i class="fas fa-plus"></i></a>
                                 {% endif %}
-                            {% endif %}
+                            {% else %}
+                                <a href="{{ path('new_panier', {'cadeauId' : cadeau.id}) }}" class=" button button-link text-success"><i class="fas fa-plus"></i></a>
+                           {% endif %}
 
 
                         </div>

@@ -14,13 +14,14 @@
         <div class="row">
             <div class="col-md-12">
                 <h4 class="text-center p-4">
-                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") %}
-                        Liste des cadeaux souhaités par <strong class="text-warning">{{ panier[0].person }}</strong>
+                    {% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION")) and panier != null %}
+                        Liste des cadeaux souhaités par
+                        <strong class="text-warning">{{ panier.person }}</strong>
                     {% else %}
                         List de mes cadeaux pour Noel
                     {% endif %}
                 </h4>
-                {% if panier | length > 0%}
+                {% if panier and panier.cadeaux | length > 0%}
                     <div class="table-responsive">
                         <table id="mytable" class="table table-bordred table-striped">
 
@@ -29,24 +30,22 @@
                             <th>Designation</th>
                             <th>Age</th>
                             <th>Prix</th>
-                            <th>User</th>
                             <th>Delete</th>
                             </thead>
                             <tbody>
                             {% set total = null %}
-                            {% for item in panier %}
+                            {% for cadeau in panier.cadeaux %}
                                 <tr>
                                     <td>
-                                        <img src="{{ asset("uploads/cadeaux/"~item.cadeau.image) }}" alt=""
+                                        <img src="{{ asset("uploads/cadeaux/"~cadeau.image) }}" alt=""
                                              class="img-thumbnail img_panier">
                                     </td>
-                                    <td>{{ item.cadeau.designation }}</td>
-                                    <td>{{ pluriels(item.cadeau.age, 'an') }}</td>
-                                    <td>{{ item.cadeau.prix | number_format(2,',','.')}} €</td>
-                                    <td>{{ item.person }}</td>
-                                    <td><a href="{{ path('panier_delete_from_list', {'id' : item.id}) }}"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></td>
+                                    <td>{{ cadeau.designation }}</td>
+                                    <td>{{ pluriels(cadeau.age, 'an') }}</td>
+                                    <td>{{ cadeau.prix | number_format(2,',','.')}} €</td>
+                                    <td><a href="{{ path('panier_delete_from_list', {'id' : cadeau.id}) }}"><button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button></a></td>
                                 </tr>
-                                {%  set total = item.cadeau.prix + total  %}
+                                {%  set total = cadeau.prix + total  %}
                             {% endfor %}
                             </tbody>
                         </table>
@@ -65,7 +64,11 @@
                                         {{ path('cadeau_index') }}
                                     {% endif %}" class="btn btn-info text-left">Retour</a>
                         {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('valider_commande', {"id" : panier[0].person.id}) }}" class="btn btn-success text-right">Valider la commande</a>
+                            {% if panier.isValidated %}
+                                <button class="btn btn-dark text-right">Commande déja validée</button>
+                            {% else %}
+                                <a href="{{ path('valider_commande', {"id" : panier.id}) }}" class="btn btn-success text-right">Valider la commande</a>
+                            {% endif %}
                         {% endif %}
                     </div>
 

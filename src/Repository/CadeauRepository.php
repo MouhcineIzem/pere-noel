@@ -62,15 +62,24 @@ class CadeauRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Cadeau
+
+    public function findCadeauxCommandes()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+           ->innerJoin('c.paniers', 'p')
+           ->addSelect('p')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
+    public function findCadeauxByAge($age)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.age <= :age')
+            ->setParameter('age', $age)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

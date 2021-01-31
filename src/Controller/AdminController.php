@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use App\Model\City;
 use App\Form\AgeCategoryType;
 use App\Form\CityType;
@@ -33,7 +34,6 @@ class AdminController extends AbstractController
     {
         $number = 1;
         $users = $repository->findAll();
-        $panier = $panierRepository->findOneBy(["person" => $users]);
 
         $pagUsers = $paginator->paginate(
             $users,
@@ -44,7 +44,6 @@ class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', [
             'users' => $pagUsers,
             "number" => $number,
-            'panier' => $panier,
         ]);
     }
 
@@ -101,18 +100,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     *@Route("/pereNoel/cadeaux", name="pereNoel_cadeaux")
+     *@Route("/pereNoel/stats", name="pereNoel_stats")
      */
-    public function cadeauxUsers(CadeauRepository $cadeauRepository, PanierRepository $panierRepository)
+    public function stats(CadeauRepository $cadeauRepository, PanierRepository $panierRepository)
     {
-        $number = 1;
-        $cadeaux = $cadeauRepository->findAll();
-        $panier = $panierRepository->findAll();
+        $cadeauxCommandes = $cadeauRepository->findCadeauxCommandes();
 
-        return $this->render('admin/cadeaux_list.html.twig', [
-            'cadeaux' => $cadeaux,
-            'number' => $number,
-            'panier' => $panier
+        return $this->render('admin/stats.html.twig', [
+            'cadeaux' => $cadeauxCommandes,
         ]);
     }
 
@@ -121,12 +116,12 @@ class AdminController extends AbstractController
      */
     public function cadeauDansPanier($id, PanierRepository $panierRepository, CadeauRepository $cadeauRepository)
     {
-        $cadeau = $cadeauRepository->findOneById($id);
-        $panier = $panierRepository->findBy(["cadeau" => $cadeau]);
+        $cadeau = $cadeauRepository->find($id);
+        $paniers = $cadeau->getPaniers(); // $panierRepository->findBy(["cadeau" => $cadeau]);
         $homme = 0;
         $femme = 0;
 
-        foreach ($panier as $item) {
+        foreach ($paniers as $item) {
             if($item->getPerson()->getSexe() == "Homme") {
                 $homme ++;
             } else {
@@ -150,12 +145,9 @@ class AdminController extends AbstractController
         $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
 
-
-
-
         return $this->render('admin/cadeau_panier.html.twig', [
             'cadeau' => $cadeau,
-            'panier' => $panier,
+            'paniers' => $paniers,
             'piechart' => $pieChart
         ]);
     }
@@ -165,46 +157,32 @@ class AdminController extends AbstractController
      */
     public function commandes(PanierRepository $panierRepository)
     {
-        $panier = $panierRepository->findAll();
-        $number = 1;
-        //dd($panier);
+        $paniers = $panierRepository->findBy([], ['createdAt' => 'DESC']);
 
         return $this->render('admin/commandes.html.twig', [
-            'number' => $number,
-            'panier' => $panier,
+            'paniers' => $paniers,
         ]);
     }
 
     /**
      *@Route("/pereNoel/categories", name="pereNoel_categories", methods={"GET", "POST"})
      */
-    public function categories(PanierRepository $panierRepository, Request $request)
+    public function categories( Request $request, CadeauRepository $cadeauRepository)
     {
-        $panier = $panierRepository->findAll();
-        $number = 1;
+        $cadeaux = $cadeauRepository->findCadeauxCommandes();
+
+        //dd($cadeaux);
 
         $form = $this->createForm(AgeCategoryType::class);
 
         $form->handleRequest($request);
 
-        $cadeaux = [];
-        foreach ($panier as $item) {
-                array_push($cadeaux, $item->getCadeau());
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $cadeaux = [];
-            foreach ($panier as $item) {
-                if($item->getCadeau()->getAge() <= $form->get('age')->getData()) {
-                    array_push($cadeaux, $item->getCadeau());
-                }
-            }
-
+           $cadeaux = $cadeauRepository->findCadeauxByAge($form->get('age')->getData());
         }
 
         return $this->render('admin/categories.html.twig', [
-            'number' => $number,
-            'panier' => $panier,
             'cadeaux' => $cadeaux,
             'form' => $form->createView()
         ]);
@@ -215,21 +193,13 @@ class AdminController extends AbstractController
      */
     public function validerCommande(PanierRepository $panierRepository ,$id, UserRepository $userRepository)
     {
-        $user = $userRepository->findById($id);
-        //dd($user);
-        $panier = $panierRepository->findBy(["person" => $user]);
+        $panier = $panierRepository->find($id);
 
-        foreach ($panier as $item) {
-            $item->setIsValide(true);
-            $this->getDoctrine()->getManager()->persist($item);
-        }
+        $panier->setStatus(Panier::STATUS_VALIDATED);
+        $panier->setValidatedAt(new \DateTime());
 
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('pereNoel_commandes');
-        //dd($panier);
     }
-
-
-
 }

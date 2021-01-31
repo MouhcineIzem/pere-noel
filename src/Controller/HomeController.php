@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\PanierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Response as BrowserKitResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,10 +14,7 @@ class HomeController extends AbstractController
      */
     public function index(PanierRepository $panierRepository): Response
     {
-        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
-        return $this->render('home/index.html.twig', [
-            'panier' => $panier
-        ]);
+        return $this->render('home/index.html.twig');
     }
 
     /**

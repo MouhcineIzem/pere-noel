@@ -10,7 +10,7 @@
     <div class="example-wrapper">
 
         <div class="container text-center p-4">
-            <h3>Les categories  de tous les utilisateures : </h3>
+            <h3>Les categories  des cadeaux  : </h3>
         </div>
 
         <div>
@@ -27,14 +27,13 @@
             </tr>
             </thead>
             <tbody class="">
-            {% for cadeau in cadeaux  %}
-            <tr>
-                <td>{{ number }}</td>
-                <td>{{ cadeau.designation }}</td>
-                <td>{{ cadeau.age }}</td>
-                <td>{{ cadeau.categorie }}</td>
-            </tr>
-                {% set number = number + 1 %}
+            {% for cadeau in cadeaux %}
+                <tr>
+                    <td>{{ cadeau.id }}</td>
+                    <td>{{ cadeau.designation }}</td>
+                    <td>{{ cadeau.age }}</td>
+                    <td>{{ cadeau.categorie }}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

@@ -33,11 +33,21 @@ class PanierController extends AbstractController
     public function index(PanierRepository $panierRepository)
     {
 
-        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
-        //$panier = $panierRepository->findAll();
-        //dd($panier);
+        $panier = $panierRepository->findUserPanier($this->getUser());
 
         return $this->render('panier/index.html.twig', [
+            'panier' => $panier
+        ]);
+    }
+
+    /**
+     *@Route("/_panier", name="_panier_user")
+     */
+    public function panier(PanierRepository $panierRepository)
+    {
+        $panier = $panierRepository->findUserPanier($this->getUser());
+
+        return $this->render('panier/_panier.html.twig', [
             'panier' => $panier
         ]);
     }
@@ -48,11 +58,9 @@ class PanierController extends AbstractController
      */
     public function indexPanier(PanierRepository $panierRepository, $id, UserRepository $userRepository)
     {
+        $panier = $panierRepository->find($id);
 
-        $user = $userRepository->findById($id);
-        //dd($user);
-        $panier = $panierRepository->findBy(["person" => $user]);
-
+       // dd($panier);
         return $this->render('panier/index.html.twig', [
             'panier' => $panier
         ]);
@@ -61,15 +69,23 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/new/{cadeauId}", name="new_panier")
      */
-    public function newPanier($cadeauId, CadeauRepository $cadeauRepository)
+    public function newPanier($cadeauId, CadeauRepository $cadeauRepository, PanierRepository $panierRepository)
     {
-
-        $panier = new Panier();
-        $cadeau =  $cadeauRepository->findOneById($cadeauId);
         $user = $this->getUser();
 
-        $panier->setPerson($user);
-        $panier->setCadeau($cadeau);
+        $panier = $panierRepository->findOneBy(['person' => $user, 'status' => Panier::STATUS_IN_PROGRESS]);
+
+        if (null === $panier) {
+            $panier = new Panier();
+            $panier->setPerson($user);
+        }
+
+        $cadeau =  $cadeauRepository->findOneById($cadeauId);
+        if (null === $cadeau) {
+            throw $this->createNotFoundException(sprintf('Cadeaux %d not found', $cadeauId));
+        }
+
+        $panier->addCadeaux($cadeau);
 
         $this->entityManager->persist($panier);
         $this->entityManager->flush();
@@ -86,18 +102,18 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier/delete/{id}", name="panier_delete_from_list")
      */
-    public function delete(Request $request,$id,  PanierRepository $panierRepository, Panier $panier)
+    public function delete($id,  PanierRepository $panierRepository, CadeauRepository $cadeauRepository)
     {
-        $panier = $panierRepository->findOneById($id);
+        $panier = $panierRepository->findUserPanier($this->getUser());
 
-        //dd($panier);
+        $cadeau = $cadeauRepository->find($id);
 
-        //$user = $userRepository->findById($id);
-        //dd($user);
-        //$panier = $panierRepository->findBy(["person" => $user]);
+        $panier->removeCadeaux($cadeau);
 
+        if ($panier->getCadeaux()->count() === 0) {
             $this->entityManager->remove($panier);
-            $this->entityManager->flush();
+        }
+        $this->entityManager->flush();
 
         if ($this->getUser()->getRoles() == ["ROLE_USER"]) {
             return $this->redirectToRoute('panier_userConnecte');
@@ -106,8 +122,6 @@ class PanierController extends AbstractController
         return $this->redirectToRoute('panier_admin', [
             'id' => $panier->getPerson()->getId()
         ]);
-
-
     }
 
 }

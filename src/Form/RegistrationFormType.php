@@ -66,8 +66,8 @@ class RegistrationFormType extends AbstractType
                 'label' => 'genre',
                 'choices' => [
                     "Choisir entre homme | femme" => [
-                        'homme' => "homme",
-                        'femme' => "femme"
+                        'Homme' => "Homme",
+                        'Femme' => "Femme"
                     ]
                 ]
             ])

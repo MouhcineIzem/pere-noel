@@ -29,7 +29,11 @@ class CadeauController extends AbstractController
         $cadeaux = $cadeauRepository->findAll();
         $categories = $categorieRepository->findAll();
 
-        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
+        $user = $this->getUser();
+        $panier = null;
+        if (null !== $user) {
+            $panier = $panierRepository->findUserPanier($this->getUser());
+        }
 
 
         $search = new Search();
@@ -99,7 +103,8 @@ class CadeauController extends AbstractController
      */
     public function show(Cadeau $cadeau, PanierRepository  $panierRepository): Response
     {
-        $panier = $panierRepository->findBy(["person" => $this->getUser()]);
+        $panier = $panierRepository->findUserPanier($this->getUser());
+
         return $this->render('cadeau/show.html.twig', [
             'cadeau' => $cadeau,
             'panier' => $panier

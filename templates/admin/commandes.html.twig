@@ -10,29 +10,36 @@
     <div class="example-wrapper">
 
         <div class="container text-center p-4">
-            <h3>Les commandes     de tous les utilisateures : </h3>
+            <h3>Les commandes en cours: </h3>
         </div>
 
         <table class="table">
             <thead class="bg-warning">
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">N° commande</th>
                 <th scope="col">Person</th>
+                <th scope="col">Crée le</th>
                 <th scope="col">Etat de Commande</th>
+                <th scope="col">Voir</th>
             </tr>
             </thead>
             <tbody class="">
-            {% for item in panier %}
+            {% for index,item in paniers %}
             <tr>
-                    <td>{{ number }}</td>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ item.id }}</td>
                     <td>{{ item.person }}</td>
-                {% if item.isValide %}
+                    <td>{{ item.createdAt | date }}</td>
+                {% if item.isValidated %}
                     <td class="text-center text-success"><i class="fas fa-check-circle"></i></td>
                 {% else %}
                     <td class="text-center text-danger"><i class="fas fa-check-circle"></i></td>
                 {% endif %}
+                    <td>
+                        <a class="btn btn-info my-2" href="{{ path('panier_admin', {'id': item.id}) }}">Détail</a>
+                    </td>
             </tr>
-                {% set number = number + 1 %}
             {% endfor %}
             </tbody>
         </table>

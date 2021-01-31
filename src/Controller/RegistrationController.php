@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setRoles(['ROLE_SECRETARIAT']);
+            $user->setRoles(['ROLE_USER']);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -117,5 +117,19 @@ class RegistrationController extends AbstractController
         return $this->render('registration/profile.html.twig', [
             'age' =>   $age
         ]);
+    }
+
+    /**
+     *@Route("/user/delete/{id}", name="user_delete", methods={"DELETE"})
+     */
+    public function deleteUser(Request $request, User $user)
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_pereNoel');
     }
 }

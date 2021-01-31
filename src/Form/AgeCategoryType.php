@@ -22,7 +22,12 @@ class AgeCategoryType extends AbstractType
                     'placeholder' => "Chercher Categorie par Age",
                     'class' => 'form-control-sm',
                     'autocomplete' => 'off'
-                ]
+                ],
+                'constraints'=> new Range([
+                    'min' => 0,
+                    'max' => 100,
+                    'notInRangeMessage' => 'Age doit etre entre 0 et 100'
+                ])
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Appliquer",

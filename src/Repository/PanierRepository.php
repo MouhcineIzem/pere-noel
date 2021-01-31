@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Panier;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,15 +37,15 @@ class PanierRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Panier
+    public function findUserPanier(User $user, $status = Panier::STATUS_IN_PROGRESS): ?Panier
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('p.person = :person')
+            ->andWhere('p.status = :status')
+            ->setParameter('person', $user)
+            ->setParameter('status', $status)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

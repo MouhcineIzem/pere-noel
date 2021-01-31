@@ -1,0 +1,7 @@
+<i class="fas fa-shopping-cart"></i> <sup class="text-dark"><strong>
+        {% if panier %}
+            {{ panier.cadeaux | length }}
+        {% else %}
+            0
+        {% endif %}
+    </strong></sup>

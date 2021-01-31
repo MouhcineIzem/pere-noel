@@ -31,18 +31,17 @@
         {% if app.user %}
             <div class="card my-5 h-25">
                 <div class="card-header">
-                    {{ app.user.firstName }}
+                    Nom : {{ app.user.firstName }}
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <a href="{{ path('panier_userConnecte') }}" class="mx-3">List des mes cadeaux</a>
+                        <a href="{{ path('profile', {'id': app.user.id}) }}" class="mx-3">Mon  Profil</a>
                     </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('profile', {'id': app.user.id}) }}" class="mx-3">Mon - Profil</a>
-                    </li>
+                    {% if not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT")) %}
                     <li class="list-group-item border-bottom">
                         <a href="{{ path('adresse_new') }}">Ajouter une adresse</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         {% endif %}

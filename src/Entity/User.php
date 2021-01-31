@@ -74,10 +74,6 @@ class User implements UserInterface
     private $paniers;
 
 
-
-
-
-
     public function __construct()
     {
         $this->paniers = new ArrayCollection();

@@ -40,9 +40,9 @@
 
     <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
     {% set ajoute = false %}
-    {% if app.user and app.user.age > cadeau.age and not is_granted("ROLE_ADMIN") %}
-        {% for item in panier %}
-            {% if item.cadeau.id == cadeau.id and item.person.id == app.user.id %}
+    {% if app.user and app.user.age > cadeau.age and not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT")) %}
+        {% for item in panier.cadeaux %}
+            {% if item.id == cadeau.id %}
                 {% set ajoute = true %}
             {% endif %}
         {% endfor %}
@@ -51,8 +51,6 @@
         {% else %}
             <a href="{{ path('new_panier', {"cadeauId" : cadeau.id})}}" class="btn btn-success text-right mx-5">Ajouter au Panier</a>        {% endif %}
     {% endif %}
-
-
 
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>

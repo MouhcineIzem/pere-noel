@@ -5,11 +5,11 @@
 
 {% block body %}
 
-    {% set L = panier | length %}
+    {% set L = paniers | length %}
     {% set H = 0 %}
     {% set F = 0 %}
 
-    {% for item in panier %}
+    {% for item in paniers %}
         {% if item.person.sexe == "Homme" %}
             {% set H = H + 1%}
         {% else %}
@@ -36,7 +36,7 @@
                     <tr>
                         <td scope="row"><img class="img-thumbnail img_panier" src="{{ asset("uploads/cadeaux/"~cadeau.image) }}" alt=""></td>
                         <td scope="row">{{ cadeau.designation }}</td>
-                        <td scope="row">{{ panier | length }}</td>
+                        <td scope="row">{{ paniers | length }}</td>
                         <td scope="row">{{ H }} <-> {{ ((H / L) * 100) | number_format(2) }} %</td>
                         <td scope="row">{{ F }} <-> {{ ((F / L) * 100) | number_format(2) }} %</td>
                     </tr>
@@ -44,7 +44,7 @@
         </table>
     </div>
     <div class="mx-3 my-5">
-        <a href="{{ path('pereNoel_cadeaux') }}" class="btn btn-success">Retour</a>
+        <a href="{{ path('pereNoel_stats') }}" class="btn btn-success">Retour</a>
         <button class="btn btn-info" id="btn-stat">Afficher Les Statistiques</button>
     </div>
 
