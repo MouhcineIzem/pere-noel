@@ -28,7 +28,7 @@
                 {% if cadeau.user %}
                 <span class="card-detail-badge">{{ cadeau.user.firstName }}</span>
                 {% endif %}
-                <span class="card-detail-badge">> {{ pluriels(cadeau.age, 'an') }}</span>
+                <span class="card-detail-badge">< {{ pluriels(cadeau.age, 'an') }}</span>
             </div>
             <div class="card-body text-center">
                 <div class="ad-title m-auto">
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">back to list</a>
+    <a href="{{ path('cadeau_index') }}" class="btn btn-info mx-3">Retour</a>
     {% set ajoute = false %}
     {% if app.user and app.user.age > cadeau.age and not (is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") or is_granted("ROLE_SECRETARIAT")) %}
         {% for item in panier.cadeaux %}
@@ -52,8 +52,8 @@
             <a href="{{ path('new_panier', {"cadeauId" : cadeau.id})}}" class="btn btn-success text-right mx-5">Ajouter au Panier</a>        {% endif %}
     {% endif %}
 
-    {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">edit</a>
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") %}
+        <a href="{{ path('cadeau_edit', {'id': cadeau.id}) }}" class="btn btn-info my-2">Modifier</a>
         {{ include('cadeau/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

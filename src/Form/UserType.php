@@ -21,18 +21,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, [
-                'label' => 'firstName'
-            ])
-            ->add('lastName',TextType::class, [
-                'label' => 'lastName'
-            ])
-            ->add('username',TextType::class, [
-                'label' => 'username'
-            ])
-            ->add('password',PasswordType::class, [
-                'label' => 'password',
-            ])
             ->add('sexe',ChoiceType::class, [
                 'label' => 'genre',
                 'choices' => [
@@ -64,5 +52,10 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return '';
     }
 }

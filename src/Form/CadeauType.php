@@ -16,10 +16,18 @@ class CadeauType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        if (!$options['is_edition']) {
+            $builder
+                ->add('designation', TextType::class, [
+                    'label' => "Nom du cadeau",
+                    'attr' => [
+                        'readonly' => $options['is_edition'],
+                    ]
+                ]);
+        }
+
         $builder
-            ->add('designation', TextType::class, [
-                'label' => "Nom du cadeau"
-            ])
             ->add('age', IntegerType::class, [
                 'label' => 'age du cadeau'
             ])
@@ -44,6 +52,9 @@ class CadeauType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Cadeau::class,
+            'is_edition' => false
         ]);
+
+        $resolver->setAllowedTypes('is_edition', 'bool');
     }
 }
