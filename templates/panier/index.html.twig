@@ -3,11 +3,23 @@
 {% block title %}Mon Panier{% endblock %}
 
 {% block body %}
+    <style>
+        .alignerItem {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="text-center p-4">List de mes cadeaux pour Noel</h4>
+                <h4 class="text-center p-4">
+                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_GESTION") %}
+                        Liste des cadeaux souhaités par <strong class="text-warning">{{ panier[0].person }}</strong>
+                    {% else %}
+                        List de mes cadeaux pour Noel
+                    {% endif %}
+                </h4>
                 {% if panier | length > 0%}
                     <div class="table-responsive">
                         <table id="mytable" class="table table-bordred table-striped">
@@ -40,11 +52,23 @@
                         </table>
                         <table id="mytable" class="table table-bordred table-striped">
                             <thead>
-                            <th class="text-primary">Total</th>
-                            <th class="text-dark text-right">{{ total | number_format(2,',','.') }} €</th>
+                                <th class="text-primary">Total</th>
+                                <th class="text-dark text-right">{{ total | number_format(2,',','.') }} €</th>
                             </thead>
                         </table>
                     </div>
+                    <div class="my-3 alignerItem">
+                        <a href="
+                                    {% if  is_granted("ROLE_ADMIN") %}
+
+                                    {% else %}
+                                        {{ path('cadeau_index') }}
+                                    {% endif %}" class="btn btn-info text-left">Retour</a>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <a href="{{ path('valider_commande') }}" class="btn btn-success text-right">Valider la commande</a>
+                        {% endif %}
+                    </div>
+
                     {% else %}
                     <div class="text-center my-5">
                         <h3 class="text-warning">Pas de Liste de cadeaux</h3>

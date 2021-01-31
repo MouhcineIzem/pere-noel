@@ -5,11 +5,11 @@
         {% elseif is_granted("ROLE_SECRETARIAT") %}purple
         {% else %}dark{% endif %}">
     <div class="p-4 mt-5 mod-lolo">
-        {% if is_granted("ROLE_SECRETARIAT") or is_granted("ROLE_ADMIN") %}
+        {% if is_granted("ROLE_SECRETARIAT")  %}
             <p class="p-4 border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_adresses') }}">Adresses</a>
             </p>
-        {% elseif is_granted("ROLE_GESTION") or is_granted("ROLE_ADMIN") %}
+        {% elseif is_granted("ROLE_GESTION")  %}
             <p class="p-4 text-white text-decoration-none border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_cadeaux') }}">Cadeaux</a>
             </p>
@@ -17,9 +17,21 @@
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_categories') }}">Categories</a>
             </p>
         {% else %}
+            <p class="p-4 border-bottom">
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_adresses') }}">Adresses</a>
+            </p>
+            <p class="p-4 text-white text-decoration-none border-bottom">
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_cadeaux') }}">Cadeaux</a>
+            </p>
+            <p class="p-4 text-white text-decoration-none border-bottom">
+                <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_categories') }}">Categories</a>
+            </p>
             <p class="p-4 text-white text-decoration-none border-bottom">
                 <a class="text-decoration-none text-white font-weight-normal text-left" href="{{ path('pereNoel_commandes') }}">Commandes</a>
             </p>
+        {% endif %}
+        {% if app.request.pathInfo('/pereNoel') %}
+
         {% endif %}
     </div>
 </div>

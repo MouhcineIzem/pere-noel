@@ -7,6 +7,7 @@ use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Form\PourcentageType;
 use App\Repository\CategorieRepository;
+use App\Repository\PanierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;

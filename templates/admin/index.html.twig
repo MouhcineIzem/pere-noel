@@ -7,21 +7,21 @@
 
     <div class="d-flex bd-highlight mb-3">
     {% include 'admin/sidebar.html.twig' %}
-
-        <table class="table mb-3 p-2 bd-highlight">
-            <thead class="bg-warning">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th>age</th>
-                <th>genre</th>
-                <th>Adresse</th>
-                <th scope="col">Nombre de cadeaux</th>
-                <th scope="col">Show</th>
-            </tr>
-            </thead>
-            <tbody class="">
-            {% for user in users %}
+        <div class="table mb-3 p-2 bd-highlight">
+            <table class="mx-5 my-5 container">
+                <thead class="bg-warning">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th>age</th>
+                    <th>genre</th>
+                    <th>Adresse</th>
+                    <th scope="col">Nombre de cadeaux</th>
+                    <th scope="col">Show</th>
+                </tr>
+                </thead>
+                <tbody class="">
+                {% for user in users %}
                     <tr>
                         <th scope="row">{{ number }}</th>
                         <td>{{ user }}</td>
@@ -30,7 +30,7 @@
                         <td>
                             {% if user.adresses %}
                                 {{ user.adresses }}
-                                {% else %}
+                            {% else %}
                                 pas d'adresse
                             {% endif %}
                         </td>
@@ -39,10 +39,19 @@
                             <p><a href="{{ path('admin_pereNoel_list', {'id': user.id})}}"><button class="btn btn-info btn-xs" ><i class="fas fa-eye"></i></button></a></p>
                         </td>
                     </tr>
-                {% set number = number + 1 %}
-            {% endfor %}
-            </tbody>
-        </table>
+                    {% set number = number + 1 %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="mx-5 my-5 container">
+                    {{ knp_pagination_render(users) }}
+                <div class="text-center my-2">
+                    <strong class="text-primary">{{ users.getTotalItemCount }}</strong> Personnes
+                </div>
+            </div>
+        </div>
+
     </div>
+
 
 {% endblock %}

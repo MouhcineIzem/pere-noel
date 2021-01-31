@@ -108,8 +108,8 @@
 
         <div class="card__content">
             <h1 class="card__title">{{ user.firstName }}</h1>
-            <h3 class="text-center">{{ pluriels(user.age, 'an') }}</h3>
-            <h3 class="text-center">{{ user.sexe | capitalize }}</h3>
+            <h3 class="text-left text-white-50">{{ pluriels(user.age, 'an') }}</h3>
+            <h3 class="text-left text-white-50">{{ user.sexe | capitalize }}</h3>
             <div class="p-2 my-2">
                 <p><a class="btn btn-info my-2" href="{{ path('panier_admin', {'id': user.id}) }}">Gerer sa liste des cadeaux</a></p>
                 {% if user.adresses %}

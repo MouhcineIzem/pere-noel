@@ -11,6 +11,7 @@ use App\Repository\CadeauRepository;
 use App\Repository\PanierRepository;
 use App\Repository\UserRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,14 +29,20 @@ class AdminController extends AbstractController
     /**
      * @Route("/pereNoel", name="admin_pereNoel")
      */
-    public function index(UserRepository $repository, PanierRepository $panierRepository): Response
+    public function index(Request $request, UserRepository $repository, PanierRepository $panierRepository, PaginatorInterface $paginator): Response
     {
         $number = 1;
         $users = $repository->findAll();
         $panier = $panierRepository->findOneBy(["person" => $users]);
 
+        $pagUsers = $paginator->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            6
+        );
+
         return $this->render('admin/index.html.twig', [
-            'users' => $users,
+            'users' => $pagUsers,
             "number" => $number,
             'panier' => $panier,
         ]);
@@ -138,6 +145,7 @@ class AdminController extends AbstractController
         $pieChart->getOptions()->setWidth(900);
         $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
         $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $pieChart->getOptions()->setBackgroundColor('#FEFBFB');
         $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
         $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
@@ -199,5 +207,13 @@ class AdminController extends AbstractController
             'cadeaux' => $cadeaux,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     *@Route("/pereNoel/validerCommande", name="valider_commande", methods={"GET", "POST"})
+     */
+    public function validerCommande()
+    {
+        dd("Commande Validée");
     }
 }

@@ -10,25 +10,29 @@
     <div class="example-wrapper">
 
         <div class="container text-center p-4">
-            <h3>Les categories  de tous les utilisateures : </h3>
+            <h3>Les commandes     de tous les utilisateures : </h3>
         </div>
 
         <table class="table">
             <thead class="bg-warning">
             <tr>
                 <th scope="col">N° commande</th>
-                <th scope="col">Id</th>
-                <th scope="col">Cadeaux</th>
                 <th scope="col">Person</th>
+                <th scope="col">Etat de Commande</th>
+                <th scope="col">Valider la commande</th>
             </tr>
             </thead>
             <tbody class="">
             {% for item in panier %}
             <tr>
                     <td>{{ number }}</td>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.cadeau.designation }}</td>
                     <td>{{ item.person }}</td>
+                {% if item.isValide %}
+                    <td class="text-center text-success"><i class="fas fa-check-circle"></i></td>
+                {% else %}
+                    <td class="text-center text-danger"><i class="fas fa-check-circle"></i></td>
+                    <td><a class="text-center text-dark text-decoration-none" href="">Valider</a></td>
+                {% endif %}
             </tr>
                 {% set number = number + 1 %}
             {% endfor %}

@@ -32,6 +32,11 @@ class Panier
      */
     private $person;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isValide;
+
 
 
     public function getId(): ?int
@@ -65,6 +70,27 @@ class Panier
         $this->person = $person;
 
         return $this;
+    }
+
+    public function getIsValide(): ?bool
+    {
+        return $this->isValide;
+    }
+
+    public function setIsValide(?bool $isValide): self
+    {
+        $this->isValide = $isValide;
+
+        return $this;
+    }
+
+    public function ReturnIsValide()
+    {
+        if($this->isValide){
+            return "OUI";
+        }else {
+            return "NON";
+        }
     }
 
 }
