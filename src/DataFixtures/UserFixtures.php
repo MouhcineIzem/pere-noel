@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Cadeau;
+use App\Entity\Categorie;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -50,7 +52,31 @@ class UserFixtures extends Fixture
         $admin->setDateDeNaissance($faker->dateTimeBetween('-50 years'));
         $encrypted = $this->passwordEncoder->encodePassword($admin, 'admin');
         $admin->setPassword($encrypted);
+
         $manager->persist($admin);
+
+        $categorie1 = new Categorie();
+        $categorie1->setName("Jouets");
+        $manager->persist($categorie1);
+
+        $categorie2 = new Categorie();
+        $categorie2->setName("Voitures");
+        $manager->persist($categorie2);
+
+        $categorie3 = new Categorie();
+        $categorie3->setName("PC");
+        $manager->persist($categorie3);
+
+        for ($i = 0; $i < 10; $i++)
+        {
+            $cadeau = new Cadeau();
+            $cadeau->setDesignation("cadeau".$i);
+            $cadeau->setAge($faker->numberBetween(2,40));
+            $cadeau->setUser($admin);
+            $cadeau->setCategorie(array_rand([$categorie1, $categorie2, $categorie3]));
+            $manager->persist($cadeau);
+        }
+
 
         // pour Gestion
         $gestion = new User();
