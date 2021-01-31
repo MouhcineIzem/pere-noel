@@ -72,8 +72,9 @@ class UserFixtures extends Fixture
             $cadeau = new Cadeau();
             $cadeau->setDesignation("cadeau".$i);
             $cadeau->setAge($faker->numberBetween(2,40));
+            $cadeau->setPrix($faker->numberBetween(2,600));
             $cadeau->setUser($admin);
-            $cadeau->setCategorie(array_rand([$categorie1, $categorie2, $categorie3]));
+            $cadeau->setCategorie($categorie1);
             $manager->persist($cadeau);
         }
 
