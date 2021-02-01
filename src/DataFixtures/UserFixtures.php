@@ -67,6 +67,9 @@ class UserFixtures extends Fixture
         $categorie3->setName("PC");
         $manager->persist($categorie3);
 
+
+        $tab = [$categorie1, $categorie1, $categorie3];
+
         for ($i = 0; $i < 10; $i++)
         {
             $cadeau = new Cadeau();
@@ -74,7 +77,8 @@ class UserFixtures extends Fixture
             $cadeau->setAge($faker->numberBetween(2,40));
             $cadeau->setPrix($faker->numberBetween(2,600));
             $cadeau->setUser($admin);
-            $cadeau->setCategorie($categorie1);
+            $num = rand(0,2);
+            $cadeau->setCategorie($tab[$num]);
             $manager->persist($cadeau);
         }
 
